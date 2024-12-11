@@ -1,4 +1,95 @@
 @import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
+.blackjack-menu {
+  width: 25rem;
+  background-image: url("../assets/menu-background.jpg");
+  background-size: 225%;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  opacity: 0;
+  animation: fadeIn 0.15s ease-in forwards;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.settingsHeader {
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: white;
+  font-size: 3em;
+}
+
+.form-container {
+  width: 100%;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.form-container .chips-settings-container {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  gap: 1rem;
+}
+.form-container .chips-settings-container span {
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: rgb(42, 42, 99);
+  font-size: 1.5rem;
+  width: 4rem;
+}
+.form-container .chips-settings-container input {
+  outline: none;
+  background-color: rgb(42, 42, 99);
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: green;
+  font-size: 1.5rem;
+  border-radius: 5px;
+}
+
+#selectPlayers {
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: green;
+  font-size: 1.75rem;
+  border-radius: 5px;
+  background-color: rgb(42, 42, 99);
+}
+
+.bj-menu-btn-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: green;
+  font-size: 1.75rem;
+}
+.bj-menu-btn-container button {
+  text-align: center;
+  width: 9rem;
+  background-color: rgb(42, 42, 99);
+  border-radius: 5px;
+}
+.bj-menu-btn-container button:hover {
+  background-color: rgb(48, 48, 124);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +105,7 @@ body {
   height: 100vh;
 }
 
-.blackjack-option {
+.blackjack-option-btn {
   cursor: pointer;
   background-image: url("../assets/blackjack-background.jpg");
   width: 30rem;
@@ -24,9 +115,10 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  box-shadow: 50px 50px 100px 20px gray;
 }
 
-.poker-option {
+.poker-option-btn {
   cursor: pointer;
   background-image: url("../assets/poker-background.png");
   width: 30rem;
@@ -41,8 +133,12 @@ body {
 .option-description {
   font-family: Teko, sans-serif;
   font-weight: 600;
-  color: hsl(256, 100%, 20%);
+  color: white;
   font-size: 5em;
+}
+
+.custom-shadow {
+  box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.5);
 }
 
 /*# sourceMappingURL=main.css.map */

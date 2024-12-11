@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'mixins';
 @import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+@import 'menus';
 
 @include reset;
 body{
@@ -8,14 +9,18 @@ body{
     background-image: $background-blue;
     height:100vh;
 }
-.blackjack-option{
+.blackjack-option-btn{
     @include buttonStyling(url('../assets/blackjack-background.jpg'));
     @include flexbox(center, center);
+    box-shadow: 50px 50px 100px 20px gray;
 }
-.poker-option{
+.poker-option-btn{
     @include buttonStyling(url('../assets/poker-background.png'));
     @include flexbox(center, center);
 }
 .option-description{
-    @include fontStyle(hsl(256, 100%, 20%), 5em, Teko, 600);
+    @include fontStyle(white, 5em, Teko, 600);
+}
+.custom-shadow {
+    box-shadow:8px 8px 10px rgba(0, 0, 0, 0.5);
 }

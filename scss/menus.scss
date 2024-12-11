@@ -1,0 +1,54 @@
+@import 'variables';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+
+
+.blackjack-menu{
+    width:25rem;
+    background-image: url('../assets/menu-background.jpg');
+    background-size: 225%;
+    padding: 1.5rem;
+    @include flexbox(center, start, column);
+    @include classicFadeIn;
+}
+.settingsHeader{
+    @include fontStyle(white, 3em, Teko, 600);
+}
+.form-container{
+    width:100%;
+    gap: 2rem;
+    @include flexbox(start, center, column);
+    .chips-settings-container{
+        @include flexbox(start, center, row);
+        & span{
+            @include fontStyle(rgb(42, 42, 99), 1.5rem, Teko, 600);
+            width: 4rem;
+        }
+        gap: 1rem;
+        input{
+            outline:none;
+            background-color: rgb(42, 42, 99);
+            @include fontStyle(green, 1.5rem, Teko, 600);
+            border-radius: 5px;
+        }
+    }
+}
+#selectPlayers{
+    @include fontStyle(green, 1.75rem, Teko, 600);
+    border-radius: 5px;
+    background-color: rgb(42, 42, 99);
+}
+.bj-menu-btn-container{
+    width:100%;
+    @include flexbox(center, space-between, row);
+    @include fontStyle(green, 1.75rem, Teko, 600);
+    & button{
+        text-align:center;
+        width: 9rem;
+        background-color:rgb(42, 42, 99);
+        border-radius: 5px;
+        &:hover{
+        background-color:rgb(48, 48, 124);
+        }
+    }
+}

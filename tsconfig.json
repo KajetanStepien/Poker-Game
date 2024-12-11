@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "rootDir": "./script",
+        "outDir": "./dist",
+        "target": "ES2015"
+    }
+}

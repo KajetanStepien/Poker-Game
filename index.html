@@ -8,7 +8,30 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div class="blackjack-option brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 shadow"><span class="option-description">BLACKJACK</span></div>
-    <div class="poker-option brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 shadow"><span class="option-description">TEXAS HOLD'EM</span></div>
+    <div id="bj-btn" class="blackjack-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow"><span class="option-description">BLACKJACK</span></div>
+    <div id="texas-btn" class="poker-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow"><span class="option-description">TEXAS HOLD'EM</span></div>
+    <div id="bj-menu" class="blackjack-menu custom-shadow hidden">
+        <h2 class="settingsHeader">SETTINGS</h2>
+        <div id="form-container" class="form-container p-4">
+            <div class="chips-settings-container">
+            <span id="chips-settings-label">Players: </span>
+            <select name="playersAmount" id="selectPlayers" placeholder="Players: ">
+            <option disabled selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            </select>
+        </div>
+        <div class="chips-settings-container">
+        <span id="chips-settings-label">Stack:</span>
+        <input id="chips-settings" type="text"></input>
+        </div>
+        <div id="bj-menu-btn-container" class="bj-menu-btn-container">
+        <button id="exit-btn" class="bj-menu-btn">BACK</button><button id="continue-btn bj-menu-btn" class="bj-menu-btn">CONTINUE</button>
+        </div>
+    </div>
+    </div>
+    <script src="dist/ui.js"></script>
 </body>
 </html>
