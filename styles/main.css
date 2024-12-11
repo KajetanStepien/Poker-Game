@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-image: url("../assets/landing-background.jpg");
+  height: 100vh;
+}
+
+.blackjack-option {
+  cursor: pointer;
+  background-image: url("../assets/blackjack-background.jpg");
+  width: 30rem;
+  height: 30rem;
+  margin: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.poker-option {
+  cursor: pointer;
+  background-image: url("../assets/poker-background.png");
+  width: 30rem;
+  height: 30rem;
+  margin: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.option-description {
+  font-family: Teko, sans-serif;
+  font-weight: 600;
+  color: hsl(256, 100%, 20%);
+  font-size: 5em;
+}
+
+/*# sourceMappingURL=main.css.map */

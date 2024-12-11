@@ -1,0 +1,26 @@
+@mixin reset{
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+}
+@mixin buttonStyling($url){
+    cursor:pointer;
+    background-image: $url;
+    width:30rem;
+    height:30rem;
+    margin: 2rem;
+}
+@mixin flexbox($align-items, $justify-content, $flex-direction: row){
+    display: flex;
+    flex-direction: $flex-direction;
+    align-items: $align-items;
+    justify-content: $justify-content;
+}
+@mixin fontStyle($color, $size, $family, $weight:400){
+    font-family: $family, sans-serif;
+    font-weight: $weight;
+    color: $color;
+    font-size: $size;
+}

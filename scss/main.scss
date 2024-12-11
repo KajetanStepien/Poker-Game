@@ -1,0 +1,21 @@
+@import 'variables';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+
+@include reset;
+body{
+    @include flexbox(center, center);
+    background-image: $background-blue;
+    height:100vh;
+}
+.blackjack-option{
+    @include buttonStyling(url('../assets/blackjack-background.jpg'));
+    @include flexbox(center, center);
+}
+.poker-option{
+    @include buttonStyling(url('../assets/poker-background.png'));
+    @include flexbox(center, center);
+}
+.option-description{
+    @include fontStyle(hsl(256, 100%, 20%), 5em, Teko, 600);
+}
