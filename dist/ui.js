@@ -12,15 +12,23 @@ function showOptions(menuToHide) {
     texasOption.classList.remove("hidden");
     menuToHide.classList.add("hidden");
 }
+function backBtnLogic(buttonElementName) {
+    const backBtn = document.getElementById(buttonElementName);
+    if (backBtn) {
+        backBtn.addEventListener("click", () => {
+            if (buttonElementName === "bjExit-btn") {
+                showOptions(bjMenu);
+            }
+            if (buttonElementName === "texasExit-btn") {
+                showOptions(texasMenu);
+            }
+        });
+    }
+}
 if (bjOption) {
     bjOption.addEventListener("click", () => {
         hideOptions(bjMenu);
-        const backBtn = document.getElementById("bjExit-btn");
-        if (backBtn) {
-            backBtn.addEventListener("click", () => {
-                showOptions(bjMenu);
-            });
-        }
+        backBtnLogic("bjExit-btn");
     });
 }
 else {
@@ -29,12 +37,7 @@ else {
 if (texasOption) {
     texasOption.addEventListener("click", () => {
         hideOptions(texasMenu);
-        const backBtn = document.getElementById("texasExit-btn");
-        if (backBtn) {
-            backBtn.addEventListener("click", () => {
-                showOptions(texasMenu);
-            });
-        }
+        backBtnLogic("texasExit-btn");
     });
 }
 else {
