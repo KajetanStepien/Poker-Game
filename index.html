@@ -13,22 +13,52 @@
     <div id="bj-menu" class="blackjack-menu custom-shadow hidden">
         <h2 class="settingsHeader">SETTINGS</h2>
         <div id="form-container" class="form-container p-4">
-            <div class="chips-settings-container">
-            <span id="chips-settings-label">Players: </span>
-            <select name="playersAmount" id="selectPlayers" placeholder="Players: ">
-            <option disabled selected>0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <div class="settings-option-container">
+            <span id="settings-option-label">Players: </span>
+            <select name="playersAmount" id="bjSelect-players" class="select-standard">
+            <option value="1" selected>1</option>
             </select>
         </div>
-        <div class="chips-settings-container">
-        <span id="chips-settings-label">Stack:</span>
-        <input id="chips-settings" type="text"></input>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Stack:</span>
+            <select name="stackValue" id="bjSelect-stackValue" class="select-standard">
+                <option value="1" selected>60 BB</option>
+                </select>
         </div>
-        <div id="bj-menu-btn-container" class="bj-menu-btn-container">
-        <button id="exit-btn" class="bj-menu-btn">BACK</button><button id="continue-btn bj-menu-btn" class="bj-menu-btn">CONTINUE</button>
+        <div id="menu-btn-container" class="menu-btn-container">
+        <button id="bjExit-btn" class="menu-btn">BACK</button><button id="bjContinue-btn" class="menu-btn">CONTINUE</button>
+        </div>
+    </div>
+    </div>
+    <div id="texas-menu" class="texas-menu blackjack-menu custom-shadow hidden">
+        <h2 class="settingsHeader">SETTINGS</h2>
+        <div id="form-container" class="form-container p-4">
+            <div class="settings-option-container">
+            <span id="settings-option-label">Players: </span>
+            <select name="playersAmount" id="texasSelect-players" class="select-standard">
+            <option value="1" selected>1</option>
+            </select>
+        </div>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Big blind:</span>
+            <select name="blindsValue" id="texasSelect-blindValue" class="select-standard">
+                <option value="1" selected>50</option>
+                </select>
+        </div>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Stack:</span>
+            <select name="stackValue" id="texasSelect-stackValue" class="select-standard">
+                <option value="1" selected>60 BB</option>
+                </select>
+        </div>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Blind level duration:</span>
+            <select name="blindsLevel" id="texasSelect-blindLevel" class="select-standard">
+                <option value="1" selected>15 mins</option>
+                </select>
+        </div>
+        <div id="menu-btn-container" class="menu-btn-container">
+        <button id="texasExit-btn" class="menu-btn">BACK</button><button id="texasContinue-btn" class="menu-btn">CONTINUE</button>
         </div>
     </div>
     </div>

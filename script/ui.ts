@@ -17,7 +17,7 @@ function showOptions(menuToHide: HTMLElement) :void {
 if(bjOption){
     bjOption.addEventListener("click", () => {
         hideOptions(bjMenu);
-        const backBtn = document.getElementById("exit-btn") as HTMLButtonElement;
+        const backBtn = document.getElementById("bjExit-btn") as HTMLButtonElement;
         if(backBtn){
             backBtn.addEventListener("click", () => {
                 showOptions(bjMenu);
@@ -31,6 +31,12 @@ if(bjOption){
 if(texasOption){
     texasOption.addEventListener("click", () => {
         hideOptions(texasMenu);
+        const backBtn = document.getElementById("texasExit-btn") as HTMLButtonElement;
+        if(backBtn){
+            backBtn.addEventListener("click", () => {
+                showOptions(texasMenu);
+            })
+        }
     })
 }else{
     console.log("Element texas-btn does not exist.");

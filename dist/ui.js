@@ -15,7 +15,7 @@ function showOptions(menuToHide) {
 if (bjOption) {
     bjOption.addEventListener("click", () => {
         hideOptions(bjMenu);
-        const backBtn = document.getElementById("exit-btn");
+        const backBtn = document.getElementById("bjExit-btn");
         if (backBtn) {
             backBtn.addEventListener("click", () => {
                 showOptions(bjMenu);
@@ -29,6 +29,12 @@ else {
 if (texasOption) {
     texasOption.addEventListener("click", () => {
         hideOptions(texasMenu);
+        const backBtn = document.getElementById("texasExit-btn");
+        if (backBtn) {
+            backBtn.addEventListener("click", () => {
+                showOptions(texasMenu);
+            });
+        }
     });
 }
 else {

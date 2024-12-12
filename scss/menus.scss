@@ -18,11 +18,12 @@
     width:100%;
     gap: 2rem;
     @include flexbox(start, center, column);
-    .chips-settings-container{
-        @include flexbox(start, center, row);
+    .settings-option-container{
+        @include flexbox(center, start, row);
+        width:100%;
         & span{
             @include fontStyle(rgb(42, 42, 99), 1.5rem, Teko, 600);
-            width: 4rem;
+            width: 50%;
         }
         gap: 1rem;
         input{
@@ -33,12 +34,13 @@
         }
     }
 }
-#selectPlayers{
+.select-standard{
     @include fontStyle(green, 1.75rem, Teko, 600);
     border-radius: 5px;
     background-color: rgb(42, 42, 99);
+    width:50%;
 }
-.bj-menu-btn-container{
+.menu-btn-container{
     width:100%;
     @include flexbox(center, space-between, row);
     @include fontStyle(green, 1.75rem, Teko, 600);
