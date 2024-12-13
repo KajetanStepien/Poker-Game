@@ -25,19 +25,50 @@ function backBtnLogic(buttonElementName) {
         });
     }
 }
-if (bjOption) {
+function injectSelectOptions(type, lvlAmount, selectId) {
+    function createSelectOptions(step, postfix) {
+        const selectElement = document.querySelector(selectId);
+        selectElement.innerHTML = "";
+        let stepLvl = step;
+        for (let i = 0; i < lvlAmount; i++) {
+            const newOption = document.createElement("option");
+            selectElement.appendChild(newOption);
+            newOption.innerHTML = "" + stepLvl + postfix;
+            stepLvl = stepLvl + step;
+        }
+    }
+    if (type === "players") {
+        createSelectOptions(1, "");
+    }
+    if (type === "blindsValue") {
+        createSelectOptions(50, "");
+    }
+    if (type === "stackValue") {
+        createSelectOptions(20, " BB");
+    }
+    if (type === "levelDuration") {
+        createSelectOptions(15, " mins");
+    }
+}
+if (bjOption) { //handling blackjack game choice (if exist)
     bjOption.addEventListener("click", () => {
         hideOptions(bjMenu);
         backBtnLogic("bjExit-btn");
+        injectSelectOptions("players", 4, "#bjSelect-players");
+        injectSelectOptions("stackValue", 8, "#bjSelect-stackValue");
     });
 }
 else {
     console.log("Element bj-btn does not exist.");
 }
-if (texasOption) {
+if (texasOption) { //handling poker game choice (if exist)
     texasOption.addEventListener("click", () => {
         hideOptions(texasMenu);
         backBtnLogic("texasExit-btn");
+        injectSelectOptions("players", 5, "#texasSelect-players");
+        injectSelectOptions("blindsValue", 5, "#texasSelect-blindValue");
+        injectSelectOptions("stackValue", 8, "#texasSelect-stackValue");
+        injectSelectOptions("levelDuration", 4, "#texasSelect-blindLevel");
     });
 }
 else {
