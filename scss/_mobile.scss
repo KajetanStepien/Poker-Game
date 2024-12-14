@@ -1,0 +1,19 @@
+@import 'variables';
+@import 'mixins';
+@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');
+
+@media(max-width: 1050px){
+    .blackjack-option-btn, .poker-option-btn{
+        width: 40vw;
+        height: 40vh;
+    }
+}
+@media(max-width:900px){
+    body{
+        @include flexbox(center, center, column);
+    }
+    .poker-option-btn, .blackjack-option-btn{
+        width:360px;
+        height:360px;
+    }
+}

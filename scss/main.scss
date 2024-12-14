@@ -13,10 +13,16 @@ body{
     @include buttonStyling(url('../assets/blackjack-background.jpg'));
     @include flexbox(center, center);
     box-shadow: 50px 50px 100px 20px gray;
+    aspect-ratio: 1/1;
 }
 .poker-option-btn{
     @include buttonStyling(url('../assets/poker-background.png'));
     @include flexbox(center, center);
+    & span{
+        text-align: center;
+        line-height: 0.8;
+    }
+    aspect-ratio: 1/1;
 }
 .option-description{
     @include fontStyle(white, 5em, Teko, 600);
@@ -24,3 +30,5 @@ body{
 .custom-shadow {
     box-shadow:8px 8px 10px rgba(0, 0, 0, 0.5);
 }
+
+@import 'mobile';

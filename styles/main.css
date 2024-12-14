@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
 .blackjack-menu {
   width: 25rem;
   background-image: url("../assets/menu-background.jpg");
@@ -119,6 +120,7 @@ body {
   align-items: center;
   justify-content: center;
   box-shadow: 50px 50px 100px 20px gray;
+  aspect-ratio: 1/1;
 }
 
 .poker-option-btn {
@@ -131,6 +133,11 @@ body {
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1/1;
+}
+.poker-option-btn span {
+  text-align: center;
+  line-height: 0.8;
 }
 
 .option-description {
@@ -142,6 +149,25 @@ body {
 
 .custom-shadow {
   box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1050px) {
+  .blackjack-option-btn, .poker-option-btn {
+    width: 40vw;
+    height: 40vh;
+  }
+}
+@media (max-width: 900px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .poker-option-btn, .blackjack-option-btn {
+    width: 360px;
+    height: 360px;
+  }
 }
 
 /*# sourceMappingURL=main.css.map */
