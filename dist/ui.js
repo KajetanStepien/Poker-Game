@@ -50,27 +50,29 @@ function injectSelectOptions(type, lvlAmount, selectId) {
         createSelectOptions(15, " mins");
     }
 }
-if (bjOption) { //handling blackjack game choice (if exist)
-    bjOption.addEventListener("click", () => {
-        hideOptions(bjMenu);
-        backBtnLogic("bjExit-btn");
-        injectSelectOptions("players", 4, "#bjSelect-players");
-        injectSelectOptions("stackValue", 8, "#bjSelect-stackValue");
-    });
-}
-else {
-    console.log("Element bj-btn does not exist.");
-}
-if (texasOption) { //handling poker game choice (if exist)
-    texasOption.addEventListener("click", () => {
-        hideOptions(texasMenu);
-        backBtnLogic("texasExit-btn");
-        injectSelectOptions("players", 5, "#texasSelect-players");
-        injectSelectOptions("blindsValue", 5, "#texasSelect-blindValue");
-        injectSelectOptions("stackValue", 8, "#texasSelect-stackValue");
-        injectSelectOptions("levelDuration", 4, "#texasSelect-blindLevel");
-    });
-}
-else {
-    console.log("Element texas-btn does not exist.");
+export function landingMenuLogic() {
+    if (bjOption) { //handling blackjack game choice (if exist)
+        bjOption.addEventListener("click", () => {
+            hideOptions(bjMenu);
+            backBtnLogic("bjExit-btn");
+            injectSelectOptions("players", 4, "#bjSelect-players");
+            injectSelectOptions("stackValue", 8, "#bjSelect-stackValue");
+        });
+    }
+    else {
+        console.log("Element bj-btn does not exist.");
+    }
+    if (texasOption) { //handling poker game choice (if exist)
+        texasOption.addEventListener("click", () => {
+            hideOptions(texasMenu);
+            backBtnLogic("texasExit-btn");
+            injectSelectOptions("players", 5, "#texasSelect-players");
+            injectSelectOptions("blindsValue", 5, "#texasSelect-blindValue");
+            injectSelectOptions("stackValue", 8, "#texasSelect-stackValue");
+            injectSelectOptions("levelDuration", 4, "#texasSelect-blindLevel");
+        });
+    }
+    else {
+        console.log("Element texas-btn does not exist.");
+    }
 }

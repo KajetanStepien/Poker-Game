@@ -52,7 +52,7 @@ function injectSelectOptions(type: string, lvlAmount: number, selectId: string) 
     }
 }
 
-
+export function landingMenuLogic(){
 if(bjOption){ //handling blackjack game choice (if exist)
     bjOption.addEventListener("click", () => {
         hideOptions(bjMenu);
@@ -75,4 +75,5 @@ if(texasOption){ //handling poker game choice (if exist)
     })
 }else{
     console.log("Element texas-btn does not exist.");
+}
 }
