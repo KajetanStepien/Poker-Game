@@ -2,12 +2,12 @@ const bjOption = document.getElementById("bj-btn");
 const texasOption = document.getElementById("texas-btn");
 const bjMenu = document.getElementById("bj-menu");
 const texasMenu = document.getElementById("texas-menu");
-function hideOptions(menuToShow) {
+export function hideOptions(menuToShow) {
     bjOption.classList.add("hidden");
     texasOption.classList.add("hidden");
     menuToShow.classList.remove("hidden");
 }
-function showOptions(menuToHide) {
+export function showOptions(menuToHide) {
     bjOption.classList.remove("hidden");
     texasOption.classList.remove("hidden");
     menuToHide.classList.add("hidden");

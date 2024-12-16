@@ -3,12 +3,12 @@ const texasOption: HTMLElement | null = document.getElementById("texas-btn");
 const bjMenu: HTMLElement | null = document.getElementById("bj-menu");
 const texasMenu: HTMLElement | null = document.getElementById("texas-menu");
 
-function hideOptions(menuToShow: HTMLElement) :void { //hiding landing page, showing game settings
+export function hideOptions(menuToShow: HTMLElement) :void { //hiding landing page, showing game settings
     bjOption.classList.add("hidden");
     texasOption.classList.add("hidden");
     menuToShow.classList.remove("hidden");
 }
-function showOptions(menuToHide: HTMLElement) :void { //showing landing page, hiding game settings
+export function showOptions(menuToHide: HTMLElement) :void { //showing landing page, hiding game settings
     bjOption.classList.remove("hidden");
     texasOption.classList.remove("hidden");
     menuToHide.classList.add("hidden");
