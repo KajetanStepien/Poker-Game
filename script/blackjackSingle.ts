@@ -2,6 +2,7 @@
 const continueButton = document.getElementById("bjContinue-btn") as HTMLButtonElement;
 const playersSelect = document.getElementById("bjSelect-players") as HTMLSelectElement;
 const bjSettings = document.getElementById("bj-menu");
+const blackjacktable: HTMLElement = document.getElementById("blackjackgame-table-container");
 
 
 function loadBlackjackDesign(){

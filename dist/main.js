@@ -1,8 +1,8 @@
-import { landingMenuLogic } from "./ui.js";
+import { landingMenuLogic } from "./ui";
 document.addEventListener('DOMContentLoaded', () => {
     landingMenuLogic();
 });
-import { blackjackSingleLogic } from "./blackjackSingle.js";
+import { blackjackSingleLogic } from "./blackjackSingle";
 document.addEventListener("DOMContentLoaded", () => {
     blackjackSingleLogic();
 });

@@ -1,6 +1,7 @@
 const continueButton = document.getElementById("bjContinue-btn");
 const playersSelect = document.getElementById("bjSelect-players");
 const bjSettings = document.getElementById("bj-menu");
+const blackjacktable = document.getElementById("blackjackgame-table-container");
 function loadBlackjackDesign() {
     bjSettings.classList.add("hidden");
     const bodyElement = document.querySelector("body");
