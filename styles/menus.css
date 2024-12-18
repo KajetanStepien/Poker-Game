@@ -92,4 +92,8 @@
   background-color: rgb(48, 48, 124);
 }
 
+.hidden {
+  display: none;
+}
+
 /*# sourceMappingURL=menus.css.map */

@@ -43,8 +43,11 @@ function injectSelectOptions(type, lvlAmount, selectId) {
     if (type === "blindsValue") {
         createSelectOptions(50, "");
     }
-    if (type === "stackValue") {
+    if (type === "stackValueBj") {
         createSelectOptions(20, " BB");
+    }
+    if (type === "stackValueBj") {
+        createSelectOptions(2000, "");
     }
     if (type === "levelDuration") {
         createSelectOptions(15, " mins");
@@ -56,7 +59,7 @@ export function landingMenuLogic() {
             hideOptions(bjMenu);
             backBtnLogic("bjExit-btn");
             injectSelectOptions("players", 4, "#bjSelect-players");
-            injectSelectOptions("stackValue", 8, "#bjSelect-stackValue");
+            injectSelectOptions("stackValueBj", 12, "#bjSelect-stackValue");
         });
     }
     else {

@@ -44,8 +44,11 @@ function injectSelectOptions(type: string, lvlAmount: number, selectId: string) 
     if(type==="blindsValue"){
         createSelectOptions(50, "");
     }
-    if(type==="stackValue"){
+    if(type==="stackValueBj"){
         createSelectOptions(20, " BB");
+    }
+    if(type==="stackValueBj"){
+        createSelectOptions(2000, "");
     }
     if(type==="levelDuration"){
         createSelectOptions(15, " mins");
@@ -58,7 +61,7 @@ if(bjOption){ //handling blackjack game choice (if exist)
         hideOptions(bjMenu);
         backBtnLogic("bjExit-btn");
         injectSelectOptions("players", 4, "#bjSelect-players");
-        injectSelectOptions("stackValue", 8, "#bjSelect-stackValue");
+        injectSelectOptions("stackValueBj", 12, "#bjSelect-stackValue");
     })
 }else{
     console.log("Element bj-btn does not exist.");

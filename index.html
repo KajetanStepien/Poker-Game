@@ -10,17 +10,39 @@
 <body>
     <div id="blackjackgame-table-container" class="blackjackTable hidden">
         <div id="dealer-card-slots" class="dealerHand hidden">
-            <span id="dealer-hand-value" class="dealerHand-value"></span>
+            <span id="dealer-hand-value" class="dealerHand-value hidden"></span>
         </div>
         <div id="player-card-slots" class="playerHand hidden">
-            <span id="player-hand-value" class="playerHand-value"></span>
+            <span id="player-hand-value" class="playerHand-value hidden"></span>
         </div>
-        <div id="playerName-container" class="playerName-container hidden">
+        <div id="playerName-container" class="playerName-container">
             <img id="playerName-avatar" src="./assets/avatar-default.png"></img>
             <span id="playerName-namebox" class="playerName-namebox gradient">
                 <span id="playerName-namebox-name" class="namebox-name">leo</span>
-                <span id="playerName-namebox-stack" class="namebox-stack">$15.00</span>
+                <span id="playerName-namebox-stack" class="namebox-stack"></span>
             </span>
+            <div class="betting-panel-helper">
+            <div id="betting-panel" class="bettingPanel hidden">
+                <div id="betting-options-container">
+                    <div id="bet-amount-label">
+                        <span class="dollar-span">$</span>
+                        <span id="bet-value">0.00</span>
+                    </div>
+                    <div class="optionsHelper">
+                    <div id="betting-buttons-container">
+                        <button>ALL IN</button>
+                        <button>1/2</button>
+                        <button>1/3</button>
+                        <button>1/4</button>
+                    </div>
+                    <div class="rangeContainer">
+                    <input id="rangeInput" type="range" class="vertical-range"></input>
+                    </div>
+                    </div>
+                </div>
+            </div>
+                <button id="bet-button" class="gradient">BET</button>
+            </div>
         </div>
     </div>
     <div id="bj-btn" class="blackjack-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow"><span class="option-description">BLACKJACK</span></div>
