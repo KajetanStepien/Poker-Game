@@ -8,17 +8,23 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <div id="blackjackgame-table-container" class="blackjackTable">
-        <div id="playerName-container" class="playerName-container">
-            <span id="playerName-avatar" class="playerName-avatar"></span>
-            <span id="playerName-namebox" class="playerName-namebox">
+    <div id="blackjackgame-table-container" class="blackjackTable hidden">
+        <div id="dealer-card-slots" class="dealerHand hidden">
+            <span id="dealer-hand-value" class="dealerHand-value"></span>
+        </div>
+        <div id="player-card-slots" class="playerHand hidden">
+            <span id="player-hand-value" class="playerHand-value"></span>
+        </div>
+        <div id="playerName-container" class="playerName-container hidden">
+            <img id="playerName-avatar" src="./assets/avatar-default.png"></img>
+            <span id="playerName-namebox" class="playerName-namebox gradient">
                 <span id="playerName-namebox-name" class="namebox-name">leo</span>
                 <span id="playerName-namebox-stack" class="namebox-stack">$15.00</span>
             </span>
         </div>
     </div>
-    <div id="bj-btn" class="blackjack-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow hidden"><span class="option-description">BLACKJACK</span></div>
-    <div id="texas-btn" class="poker-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow hidden"><span class="option-description">TEXAS HOLD'EM</span></div>
+    <div id="bj-btn" class="blackjack-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow"><span class="option-description">BLACKJACK</span></div>
+    <div id="texas-btn" class="poker-option-btn brightness-50 hover:brightness-95 hover:scale-105 transition-all duration:300 custom-shadow"><span class="option-description">TEXAS HOLD'EM</span></div>
     <div id="bj-menu" class="blackjack-menu custom-shadow hidden">
         <h2 class="settingsHeader">SETTINGS</h2>
         <div id="form-container" class="form-container p-4">
