@@ -9,6 +9,7 @@ const allinBtn = document.getElementById("allin-btn");
 const halfBtn = document.getElementById("1/2-btn");
 const thirdBtn = document.getElementById("1/3-btn");
 const quarterBtn = document.getElementById("1/4-btn");
+const rangeBetInput = document.getElementById("rangeInput");
 function formatAsCurrency(amount, vaultStyle = "currency", currency = "USD", locale = "en-US") {
     return new Intl.NumberFormat(locale, {
         style: vaultStyle,
@@ -23,25 +24,33 @@ function bettingLogic(stackValue) {
             bettingPanelElement.classList.toggle("hidden");
             isBetting = !isBetting;
             if (isBetting) {
+                let playerStack = stackValue;
+                rangeBetInput.min = String(0.1 * playerStack);
+                rangeBetInput.max = String(playerStack);
+                rangeBetInput.step = String(playerStack * 0.01);
                 allinBtn.addEventListener("click", () => {
-                    let playerStack = stackValue;
                     valueSpan.innerText = formatAsCurrency(playerStack, "decimal");
+                    rangeBetInput.value = String(playerStack);
                 });
                 halfBtn.addEventListener("click", () => {
-                    let playerStack = stackValue;
                     valueSpan.innerText = formatAsCurrency(playerStack / 2, "decimal");
+                    rangeBetInput.value = String(playerStack / 2);
                 });
                 thirdBtn.addEventListener("click", () => {
-                    let playerStack = stackValue;
                     valueSpan.innerText = formatAsCurrency(playerStack / 3, "decimal");
+                    rangeBetInput.value = String(playerStack / 3);
                 });
                 quarterBtn.addEventListener("click", () => {
-                    let playerStack = stackValue;
                     valueSpan.innerText = formatAsCurrency(playerStack / 4, "decimal");
+                    rangeBetInput.value = String(playerStack / 4);
+                });
+                rangeBetInput.addEventListener("input", () => {
+                    valueSpan.innerText = formatAsCurrency(Number(rangeBetInput.value), "decimal");
                 });
             }
             else {
                 valueSpan.innerText = "0.00";
+                rangeBetInput.value = "0";
             }
         });
     }
