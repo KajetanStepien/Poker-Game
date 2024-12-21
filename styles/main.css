@@ -305,7 +305,7 @@
   border: 2px solid rgb(128, 128, 128);
   cursor: grabbing;
 }
-.playerName-container #bet-button, .playerName-container #action-btn {
+.playerName-container #bet-button, .playerName-container .action-btn {
   height: 64px;
   min-width: 100px;
   width: 100%;
@@ -319,7 +319,7 @@
   margin: 0px 5px 0px 5px;
   line-height: 1;
 }
-.playerName-container #bet-button:hover, .playerName-container #action-btn:hover {
+.playerName-container #bet-button:hover, .playerName-container .action-btn:hover {
   filter: brightness(1.25);
 }
 
