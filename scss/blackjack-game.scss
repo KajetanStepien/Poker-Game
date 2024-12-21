@@ -165,7 +165,7 @@
             cursor: grabbing;
         }
     }
-    & #bet-button{
+    & #bet-button, #action-btn{
         height:64px;
         min-width:100px;
         width:100%;
@@ -173,6 +173,8 @@
         @include fontStyle(#38e6ea, 1.5rem, "Teko");
         border-radius: 15px;
         border: 2px solid rgb(128,128,128);
+        margin: 0px 5px 0px 5px;
+        line-height: 1;
         &:hover{
             filter:brightness(1.25);
         }
@@ -183,5 +185,12 @@
     background: linear-gradient(
         to right,
         rgba(38, 160, 218, 0.5), rgba(49, 71, 85, 0.7)
+    );
+}
+.gradient2{
+    background: rgba(49, 71, 85, 0.7);
+    background: linear-gradient(
+        to right,
+        rgba(11, 104, 39, 0.5), rgba(3, 36, 13, 0.5)
     );
 }

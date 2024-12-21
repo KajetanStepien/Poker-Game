@@ -305,7 +305,7 @@
   border: 2px solid rgb(128, 128, 128);
   cursor: grabbing;
 }
-.playerName-container #bet-button {
+.playerName-container #bet-button, .playerName-container #action-btn {
   height: 64px;
   min-width: 100px;
   width: 100%;
@@ -316,14 +316,21 @@
   font-size: 1.5rem;
   border-radius: 15px;
   border: 2px solid rgb(128, 128, 128);
+  margin: 0px 5px 0px 5px;
+  line-height: 1;
 }
-.playerName-container #bet-button:hover {
+.playerName-container #bet-button:hover, .playerName-container #action-btn:hover {
   filter: brightness(1.25);
 }
 
 .gradient {
   background: rgba(49, 71, 85, 0.7);
   background: linear-gradient(to right, rgba(38, 160, 218, 0.5), rgba(49, 71, 85, 0.7));
+}
+
+.gradient2 {
+  background: rgba(49, 71, 85, 0.7);
+  background: linear-gradient(to right, rgba(11, 104, 39, 0.5), rgba(3, 36, 13, 0.5));
 }
 
 * {
