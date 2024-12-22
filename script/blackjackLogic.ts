@@ -106,3 +106,7 @@ export class Hand{
         return hand.reduce((acc, card) => acc+card.value, 0);
     }
 }
+
+export class Dealer{
+    
+}
