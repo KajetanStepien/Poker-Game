@@ -15,6 +15,7 @@ const halfBtn = document.getElementById("1/2-btn") as HTMLButtonElement;
 const thirdBtn = document.getElementById("1/3-btn") as HTMLButtonElement;
 const quarterBtn = document.getElementById("1/4-btn") as HTMLButtonElement;
 const rangeBetInput = document.getElementById("rangeInput") as HTMLInputElement;
+let betValue: number;
 
 function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOptionsStyleRegistry = "currency",  currency: string = "USD", locale: string = "en-US"): string{
     return new Intl.NumberFormat(locale, {
@@ -29,6 +30,8 @@ function bettingLogic(stackValue: number){
         let isBetting: boolean = false;
         betButtonElement.addEventListener("click", ()=>{
             bettingPanelElement.classList.toggle("hidden");
+            betButtonElement.classList.toggle("betBtn-confirm");
+            betButtonElement.innerText="CONFIRM";
             isBetting = !isBetting;
             if(isBetting){
                 let playerStack: number = stackValue;
@@ -55,8 +58,12 @@ function bettingLogic(stackValue: number){
                 valueSpan.innerText = formatAsCurrency(Number(rangeBetInput.value), "decimal");
                 })
             } else{
+                betValue = Number(valueSpan.innerText.replace(/,/g,""));
+                console.log(betValue);
                 valueSpan.innerText="0.00";
                 rangeBetInput.value = "0";
+                betButtonElement.innerText="BET";
+                betValue = 0;
             }
         })
     }
@@ -69,12 +76,17 @@ function loadBlackjackDesign(){
     blackjacktable.classList.remove("hidden");
 }
 
+function allowBetPlacing(){
+    betButtonElement.classList.toggle("hidden");
+}
+
 export function blackjackSingleLogic(){
 if(continueButton){
     continueButton.addEventListener("click", ()=>{
         const startingStackElement = document.getElementById("bjSelect-stackValue") as HTMLSelectElement;
         const startingStackAmount: number = Number(startingStackElement.value);
         if(playersSelect.value==="1"){
+            allowBetPlacing();
             loadBlackjackDesign();
             bettingLogic(startingStackAmount);
             const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-stack");

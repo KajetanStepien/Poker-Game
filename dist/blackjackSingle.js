@@ -10,6 +10,7 @@ const halfBtn = document.getElementById("1/2-btn");
 const thirdBtn = document.getElementById("1/3-btn");
 const quarterBtn = document.getElementById("1/4-btn");
 const rangeBetInput = document.getElementById("rangeInput");
+let betValue;
 function formatAsCurrency(amount, vaultStyle = "currency", currency = "USD", locale = "en-US") {
     return new Intl.NumberFormat(locale, {
         style: vaultStyle,
@@ -22,6 +23,8 @@ function bettingLogic(stackValue) {
         let isBetting = false;
         betButtonElement.addEventListener("click", () => {
             bettingPanelElement.classList.toggle("hidden");
+            betButtonElement.classList.toggle("betBtn-confirm");
+            betButtonElement.innerText = "CONFIRM";
             isBetting = !isBetting;
             if (isBetting) {
                 let playerStack = stackValue;
@@ -49,8 +52,12 @@ function bettingLogic(stackValue) {
                 });
             }
             else {
+                betValue = Number(valueSpan.innerText.replace(/,/g, ""));
+                console.log(betValue);
                 valueSpan.innerText = "0.00";
                 rangeBetInput.value = "0";
+                betButtonElement.innerText = "BET";
+                betValue = 0;
             }
         });
     }
@@ -61,12 +68,16 @@ function loadBlackjackDesign() {
     bodyElement.classList.add("blackjackSingle");
     blackjacktable.classList.remove("hidden");
 }
+function allowBetPlacing() {
+    betButtonElement.classList.toggle("hidden");
+}
 export function blackjackSingleLogic() {
     if (continueButton) {
         continueButton.addEventListener("click", () => {
             const startingStackElement = document.getElementById("bjSelect-stackValue");
             const startingStackAmount = Number(startingStackElement.value);
             if (playersSelect.value === "1") {
+                allowBetPlacing();
                 loadBlackjackDesign();
                 bettingLogic(startingStackAmount);
                 const stackSpan = document.getElementById("playerName-namebox-stack");
