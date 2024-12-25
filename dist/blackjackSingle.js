@@ -14,6 +14,7 @@ const stackSpan = document.getElementById("playerName-namebox-stack");
 let betValue;
 let betMadeAmount;
 let playerStack;
+let playerStackk;
 function formatAsCurrency(amount, vaultStyle = "currency", currency = "USD", locale = "en-US") {
     return new Intl.NumberFormat(locale, {
         style: vaultStyle,
@@ -72,7 +73,7 @@ function bettingLogic(stackValue) {
                 }
             }
             else {
-                console.log("YOU LOST");
+                console.log("BUSTED. NO CREDITSS");
             }
         });
     }

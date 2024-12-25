@@ -19,6 +19,7 @@ const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-s
 let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
+let playerStackk: number;
 
 function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOptionsStyleRegistry = "currency",  currency: string = "USD", locale: string = "en-US"): string{
     return new Intl.NumberFormat(locale, {
@@ -78,7 +79,7 @@ function bettingLogic(stackValue: number){
                 stackSpan.innerText = formatAsCurrency(playerStack);
             }
             }else{
-                console.log("YOU LOST");
+                console.log("BUSTED. NO CREDITSS");
             }
         })
     }
