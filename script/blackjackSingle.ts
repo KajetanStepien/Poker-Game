@@ -16,6 +16,7 @@ const thirdBtn = document.getElementById("1/3-btn") as HTMLButtonElement;
 const quarterBtn = document.getElementById("1/4-btn") as HTMLButtonElement;
 const rangeBetInput = document.getElementById("rangeInput") as HTMLInputElement;
 const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-stack");
+const betValueLabel: HTMLSpanElement = document.getElementById("player-bet-value");
 let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
@@ -40,6 +41,7 @@ function bettingLogic(stackValue: number){
     if(betButtonElement){
         let isBetting: boolean = false;
         betButtonElement.addEventListener("click", ()=>{
+            betValueLabel.classList.add("hidden");
             if(playerStack>0){
             bettingPanelElement.classList.toggle("hidden");
             betButtonElement.classList.toggle("betBtn-confirm");
@@ -77,6 +79,8 @@ function bettingLogic(stackValue: number){
                 rangeBetInput.value = "0";
                 betButtonElement.innerText="BET";
                 stackSpan.innerText = formatAsCurrency(playerStack);
+                betValueLabel.classList.toggle("hidden");
+                betValueLabel.innerText=formatAsCurrency(betMadeAmount);
             }
             }else{
                 console.log("BUSTED. NO CREDITSS");

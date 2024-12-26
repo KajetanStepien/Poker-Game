@@ -11,6 +11,7 @@ const thirdBtn = document.getElementById("1/3-btn");
 const quarterBtn = document.getElementById("1/4-btn");
 const rangeBetInput = document.getElementById("rangeInput");
 const stackSpan = document.getElementById("playerName-namebox-stack");
+const betValueLabel = document.getElementById("player-bet-value");
 let betValue;
 let betMadeAmount;
 let playerStack;
@@ -32,6 +33,7 @@ function bettingLogic(stackValue) {
     if (betButtonElement) {
         let isBetting = false;
         betButtonElement.addEventListener("click", () => {
+            betValueLabel.classList.add("hidden");
             if (playerStack > 0) {
                 bettingPanelElement.classList.toggle("hidden");
                 betButtonElement.classList.toggle("betBtn-confirm");
@@ -70,6 +72,8 @@ function bettingLogic(stackValue) {
                     rangeBetInput.value = "0";
                     betButtonElement.innerText = "BET";
                     stackSpan.innerText = formatAsCurrency(playerStack);
+                    betValueLabel.classList.toggle("hidden");
+                    betValueLabel.innerText = formatAsCurrency(betMadeAmount);
                 }
             }
             else {
