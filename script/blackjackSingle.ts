@@ -21,6 +21,7 @@ let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
 let playerStackk: number;
+let betMade: boolean;
 
 function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOptionsStyleRegistry = "currency",  currency: string = "USD", locale: string = "en-US"): string{
     return new Intl.NumberFormat(locale, {
@@ -36,8 +37,10 @@ function sendBet(){
     playerStack = playerStack - betMadeAmount;
 }
 
-function bettingLogic(stackValue: number){
+function bettingLogic(stackValue: number): Promise<void>{
     playerStack = stackValue;
+    betMade = false;
+    return new Promise((resolve, reject) =>{
     if(betButtonElement){
         let isBetting: boolean = false;
         betButtonElement.addEventListener("click", ()=>{
@@ -81,12 +84,16 @@ function bettingLogic(stackValue: number){
                 stackSpan.innerText = formatAsCurrency(playerStack);
                 betValueLabel.classList.toggle("hidden");
                 betValueLabel.innerText=formatAsCurrency(betMadeAmount);
+                allowBetPlacing();
+                betMade = true;
+                resolve();
             }
             }else{
                 console.log("BUSTED. NO CREDITSS");
             }
         })
     }
+});
 }
 
 function loadBlackjackDesign(){
@@ -100,17 +107,56 @@ function allowBetPlacing(){
     betButtonElement.classList.toggle("hidden");
 }
 
+function renderDealerCard(src: string = "./assets/cards/bicycle_blue.png"){
+    const dealerCardsSlot: HTMLElement = document.getElementById("dealer-card-slots");
+    let backSuitCardSrc: string = src;
+    const backsuitCard: HTMLImageElement = document.createElement("img");
+    backsuitCard.src = backSuitCardSrc;
+    dealerCardsSlot.prepend(backsuitCard);
+}
+async function renderAllDealerCards(dealerHandArr: Card[]){
+    let firstSrc: string = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
+    renderDealerCard(firstSrc);
+    let previousCardCount = 2;
+    while(true){
+        if(dealerHandArr.length>previousCardCount){
+            for(let i = previousCardCount; i<dealerHandArr.length; i++){
+                let src: string = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
+                renderDealerCard(src);
+            }
+            previousCardCount = dealerHandArr.length;
+        }
+        await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+}
+
+async function startGame(startingStackAmount: number){
+    loadBlackjackDesign();
+    allowBetPlacing();
+    await bettingLogic(startingStackAmount);
+
+    const game = new Game();
+    const deck = new Deck();
+    const player = game.initializePlayers(1, startingStackAmount);
+    const hand = new Hand();
+
+    if(betMade){
+        deck.shuffle();
+        hand.start(player, deck);
+        renderDealerCard();
+        renderAllDealerCards(hand.dealerHand);
+    }
+}
+
 export function blackjackSingleLogic(){
 if(continueButton){
     continueButton.addEventListener("click", ()=>{
         const startingStackElement = document.getElementById("bjSelect-stackValue") as HTMLSelectElement;
         const startingStackAmount: number = Number(startingStackElement.value);
         if(playersSelect.value==="1"){
-            allowBetPlacing();
-            loadBlackjackDesign();
-            bettingLogic(startingStackAmount);
             const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-stack");
             stackSpan.innerText = formatAsCurrency(startingStackAmount);
+            startGame(startingStackAmount);
         }
     })
 }

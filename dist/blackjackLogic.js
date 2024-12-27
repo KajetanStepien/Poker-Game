@@ -1,8 +1,8 @@
 export class Game {
-    initializePlayers(playerCount) {
+    initializePlayers(playerCount, chips) {
         const players = [];
         for (let i = 0; i < playerCount; i++) {
-            players.push(new Player(`Player ${i + 1}`));
+            players.push(new Player(`Player ${i + 1}`, chips));
         }
         return players;
     }

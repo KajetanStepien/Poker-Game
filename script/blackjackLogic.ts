@@ -3,10 +3,10 @@ export class Game {
     players: Player[];
     currentHand: Hand;
 
-    initializePlayers(playerCount: number): Player[]{
+    initializePlayers(playerCount: number, chips: number): Player[]{
         const players: Player[] = [];
         for(let i=0; i<playerCount; i++){
-            players.push(new Player(`Player ${i+1}`));
+            players.push(new Player(`Player ${i+1}`, chips));
         }
         return players;
     }
