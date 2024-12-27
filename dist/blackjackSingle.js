@@ -24,6 +24,8 @@ const quarterBtn = document.getElementById("1/4-btn");
 const rangeBetInput = document.getElementById("rangeInput");
 const stackSpan = document.getElementById("playerName-namebox-stack");
 const betValueLabel = document.getElementById("player-bet-value");
+const dealerHandValue = document.getElementById("dealer-hand-value");
+const playerHandValue = document.getElementById("player-hand-value");
 let betValue;
 let betMadeAmount;
 let playerStack;
@@ -110,25 +112,56 @@ function loadBlackjackDesign() {
 function allowBetPlacing() {
     betButtonElement.classList.toggle("hidden");
 }
-function renderDealerCard(src = "./assets/cards/bicycle_blue.png") {
-    const dealerCardsSlot = document.getElementById("dealer-card-slots");
-    let backSuitCardSrc = src;
-    const backsuitCard = document.createElement("img");
-    backsuitCard.src = backSuitCardSrc;
-    dealerCardsSlot.prepend(backsuitCard);
+function renderCard(src = "./assets/cards/bicycle_blue.png", type = "dealer") {
+    if (type === "dealer") {
+        const dealerCardsSlot = document.getElementById("dealer-card-slots");
+        let backSuitCardSrc = src;
+        const backsuitCard = document.createElement("img");
+        backsuitCard.src = backSuitCardSrc;
+        dealerCardsSlot.insertBefore(backsuitCard, dealerHandValue);
+    }
+    if (type === "player") {
+        const playerCardsSlot = document.getElementById("player-card-slots");
+        let CardSrc = src;
+        const Card = document.createElement("img");
+        Card.src = CardSrc;
+        playerCardsSlot.insertBefore(Card, playerHandValue);
+    }
 }
 function renderAllDealerCards(dealerHandArr) {
     return __awaiter(this, void 0, void 0, function* () {
         let firstSrc = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
-        renderDealerCard(firstSrc);
+        renderCard(firstSrc);
         let previousCardCount = 2;
+        let dealerHandValueNumber = dealerHandArr[1].value;
         while (true) {
             if (dealerHandArr.length > previousCardCount) {
                 for (let i = previousCardCount; i < dealerHandArr.length; i++) {
                     let src = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
-                    renderDealerCard(src);
+                    renderCard(src);
                 }
                 previousCardCount = dealerHandArr.length;
+            }
+            dealerHandValue.classList.remove("hidden");
+            dealerHandValue.innerText = String(dealerHandValueNumber);
+            yield new Promise((resolve) => setTimeout(resolve, 100));
+        }
+    });
+}
+function renderAllPlayerCards(playerHandArr) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let previousCardCount = 0;
+        let playerHandValueNumber = 0;
+        while (true) {
+            if (playerHandArr.length > previousCardCount) {
+                for (let i = previousCardCount; i < playerHandArr.length; i++) {
+                    let src = "./assets/cards/" + playerHandArr[i].rank + playerHandArr[i].suit + ".png";
+                    renderCard(src, "player");
+                    playerHandValueNumber = playerHandValueNumber + playerHandArr[i].value;
+                }
+                previousCardCount = playerHandArr.length;
+                playerHandValue.classList.remove("hidden");
+                playerHandValue.innerText = String(playerHandValueNumber);
             }
             yield new Promise((resolve) => setTimeout(resolve, 100));
         }
@@ -146,8 +179,9 @@ function startGame(startingStackAmount) {
         if (betMade) {
             deck.shuffle();
             hand.start(player, deck);
-            renderDealerCard();
+            renderCard();
             renderAllDealerCards(hand.dealerHand);
+            renderAllPlayerCards(hand.playersHands.get(player[0]));
         }
     });
 }

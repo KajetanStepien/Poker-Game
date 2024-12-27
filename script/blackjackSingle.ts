@@ -17,6 +17,8 @@ const quarterBtn = document.getElementById("1/4-btn") as HTMLButtonElement;
 const rangeBetInput = document.getElementById("rangeInput") as HTMLInputElement;
 const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-stack");
 const betValueLabel: HTMLSpanElement = document.getElementById("player-bet-value");
+const dealerHandValue: HTMLSpanElement = document.getElementById("dealer-hand-value");
+const playerHandValue: HTMLSpanElement = document.getElementById("player-hand-value");
 let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
@@ -107,24 +109,55 @@ function allowBetPlacing(){
     betButtonElement.classList.toggle("hidden");
 }
 
-function renderDealerCard(src: string = "./assets/cards/bicycle_blue.png"){
-    const dealerCardsSlot: HTMLElement = document.getElementById("dealer-card-slots");
-    let backSuitCardSrc: string = src;
-    const backsuitCard: HTMLImageElement = document.createElement("img");
-    backsuitCard.src = backSuitCardSrc;
-    dealerCardsSlot.prepend(backsuitCard);
+function renderCard(src: string = "./assets/cards/bicycle_blue.png", type: string = "dealer"){
+    if(type==="dealer"){
+        const dealerCardsSlot: HTMLElement = document.getElementById("dealer-card-slots");
+        let backSuitCardSrc: string = src;
+        const backsuitCard: HTMLImageElement = document.createElement("img");
+        backsuitCard.src = backSuitCardSrc;
+        dealerCardsSlot.insertBefore(backsuitCard, dealerHandValue);
+    }
+
+    if(type==="player"){
+        const playerCardsSlot: HTMLElement = document.getElementById("player-card-slots");
+        let CardSrc: string = src;
+        const Card: HTMLImageElement = document.createElement("img");
+        Card.src = CardSrc;
+        playerCardsSlot.insertBefore(Card, playerHandValue);
+    }
 }
 async function renderAllDealerCards(dealerHandArr: Card[]){
     let firstSrc: string = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
-    renderDealerCard(firstSrc);
+    renderCard(firstSrc);
     let previousCardCount = 2;
+    let dealerHandValueNumber: number = dealerHandArr[1].value;
     while(true){
         if(dealerHandArr.length>previousCardCount){
             for(let i = previousCardCount; i<dealerHandArr.length; i++){
                 let src: string = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
-                renderDealerCard(src);
+                renderCard(src);
             }
             previousCardCount = dealerHandArr.length;
+        }
+        dealerHandValue.classList.remove("hidden");
+        dealerHandValue.innerText = String(dealerHandValueNumber);
+        await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+}
+
+async function renderAllPlayerCards(playerHandArr: Card[]){
+    let previousCardCount: number = 0;
+    let playerHandValueNumber: number = 0; 
+    while(true){
+        if(playerHandArr.length>previousCardCount){
+            for(let i = previousCardCount; i<playerHandArr.length; i++){
+                let src: string = "./assets/cards/" + playerHandArr[i].rank + playerHandArr[i].suit + ".png";
+                renderCard(src, "player");
+                playerHandValueNumber = playerHandValueNumber + playerHandArr[i].value;
+            }
+            previousCardCount = playerHandArr.length;
+            playerHandValue.classList.remove("hidden");
+            playerHandValue.innerText = String(playerHandValueNumber);
         }
         await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -143,8 +176,9 @@ async function startGame(startingStackAmount: number){
     if(betMade){
         deck.shuffle();
         hand.start(player, deck);
-        renderDealerCard();
+        renderCard();
         renderAllDealerCards(hand.dealerHand);
+        renderAllPlayerCards(hand.playersHands.get(player[0]));
     }
 }
 
