@@ -26,6 +26,10 @@ const stackSpan = document.getElementById("playerName-namebox-stack");
 const betValueLabel = document.getElementById("player-bet-value");
 const dealerHandValue = document.getElementById("dealer-hand-value");
 const playerHandValue = document.getElementById("player-hand-value");
+const actionBtnHit = document.getElementById("action-btn-hit");
+const actionBtnStand = document.getElementById("action-btn-stand");
+const actionBtnDouble = document.getElementById("action-btn-dd");
+const actionBtnSplit = document.getElementById("action-btn-split");
 let betValue;
 let betMadeAmount;
 let playerStack;
@@ -107,6 +111,7 @@ function loadBlackjackDesign() {
     bjSettings.classList.add("hidden");
     const bodyElement = document.querySelector("body");
     bodyElement.classList.add("blackjackSingle");
+    bodyElement.classList.add("bjgame-mobile");
     blackjacktable.classList.remove("hidden");
 }
 function allowBetPlacing() {
@@ -167,6 +172,14 @@ function renderAllPlayerCards(playerHandArr) {
         }
     });
 }
+function hitButton(hand, player, deck) {
+    if (actionBtnHit) {
+        actionBtnHit.addEventListener("click", () => {
+            hand.hit(player, deck);
+            console.log(hand.playersHands.get(player));
+        });
+    }
+}
 function startGame(startingStackAmount) {
     return __awaiter(this, void 0, void 0, function* () {
         loadBlackjackDesign();
@@ -182,6 +195,10 @@ function startGame(startingStackAmount) {
             renderCard();
             renderAllDealerCards(hand.dealerHand);
             renderAllPlayerCards(hand.playersHands.get(player[0]));
+            hitButton(hand, player[0], deck);
+            if (Number(playerHandValue.innerText) === 21) {
+                console.log("BLACKJACK. YOU WON.");
+            }
         }
     });
 }

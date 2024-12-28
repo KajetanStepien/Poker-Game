@@ -19,6 +19,10 @@ const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-s
 const betValueLabel: HTMLSpanElement = document.getElementById("player-bet-value");
 const dealerHandValue: HTMLSpanElement = document.getElementById("dealer-hand-value");
 const playerHandValue: HTMLSpanElement = document.getElementById("player-hand-value");
+const actionBtnHit = document.getElementById("action-btn-hit") as HTMLButtonElement;
+const actionBtnStand = document.getElementById("action-btn-stand") as HTMLButtonElement;
+const actionBtnDouble = document.getElementById("action-btn-dd") as HTMLButtonElement;
+const actionBtnSplit = document.getElementById("action-btn-split") as HTMLButtonElement;
 let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
@@ -32,6 +36,7 @@ function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOpt
         maximumFractionDigits: 0,
     }).format(amount);
 }
+
 
 function sendBet(){
     betMadeAmount = betValue;
@@ -102,6 +107,7 @@ function loadBlackjackDesign(){
     bjSettings.classList.add("hidden");
     const bodyElement: HTMLElement = document.querySelector("body");
     bodyElement.classList.add("blackjackSingle");
+    bodyElement.classList.add("bjgame-mobile");
     blackjacktable.classList.remove("hidden");
 }
 
@@ -163,6 +169,16 @@ async function renderAllPlayerCards(playerHandArr: Card[]){
     }
 }
 
+function hitButton(hand, player, deck){
+    if(actionBtnHit){
+    actionBtnHit.addEventListener("click", ()=>{
+        hand.hit(player, deck);
+        console.log(hand.playersHands.get(player)); 
+    })
+    }
+}
+
+
 async function startGame(startingStackAmount: number){
     loadBlackjackDesign();
     allowBetPlacing();
@@ -179,8 +195,14 @@ async function startGame(startingStackAmount: number){
         renderCard();
         renderAllDealerCards(hand.dealerHand);
         renderAllPlayerCards(hand.playersHands.get(player[0]));
+        hitButton(hand, player[0], deck);
+        if(Number(playerHandValue.innerText)===21){
+            console.log("BLACKJACK. YOU WON.");
+        }
     }
 }
+
+
 
 export function blackjackSingleLogic(){
 if(continueButton){
