@@ -26,7 +26,6 @@ const actionBtnSplit = document.getElementById("action-btn-split") as HTMLButton
 let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
-let playerStackk: number;
 let betMade: boolean;
 
 function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOptionsStyleRegistry = "currency",  currency: string = "USD", locale: string = "en-US"): string{
@@ -173,9 +172,21 @@ function hitButton(hand, player, deck){
     if(actionBtnHit){
     actionBtnHit.addEventListener("click", ()=>{
         hand.hit(player, deck);
-        console.log(hand.playersHands.get(player)); 
+        console.log(hand.playersHands.get(player));
     })
     }
+}
+function doubleButton(hand, player, deck){
+    if(actionBtnDouble){
+        actionBtnDouble.addEventListener("click", ()=>{
+            hand.hit(player, deck);
+            console.log(hand.playersHands.get(player));
+            playerStack = playerStack - betMadeAmount;
+            betMadeAmount = betMadeAmount*2;
+            betValueLabel.innerText = formatAsCurrency(betMadeAmount);
+            stackSpan.innerText = formatAsCurrency(playerStack); 
+        })
+        }
 }
 
 
@@ -196,8 +207,15 @@ async function startGame(startingStackAmount: number){
         renderAllDealerCards(hand.dealerHand);
         renderAllPlayerCards(hand.playersHands.get(player[0]));
         hitButton(hand, player[0], deck);
+        doubleButton(hand, player[0], deck);
         if(Number(playerHandValue.innerText)===21){
             console.log("BLACKJACK. YOU WON.");
+        } else{
+            actionBtnHit.classList.toggle("hidden");
+            actionBtnStand.classList.toggle("hidden");
+        }
+        if(betMadeAmount*2<=playerStack){
+            actionBtnDouble.classList.toggle("hidden");
         }
     }
 }

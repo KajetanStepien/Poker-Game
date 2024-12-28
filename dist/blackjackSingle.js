@@ -33,7 +33,6 @@ const actionBtnSplit = document.getElementById("action-btn-split");
 let betValue;
 let betMadeAmount;
 let playerStack;
-let playerStackk;
 let betMade;
 function formatAsCurrency(amount, vaultStyle = "currency", currency = "USD", locale = "en-US") {
     return new Intl.NumberFormat(locale, {
@@ -180,6 +179,18 @@ function hitButton(hand, player, deck) {
         });
     }
 }
+function doubleButton(hand, player, deck) {
+    if (actionBtnDouble) {
+        actionBtnDouble.addEventListener("click", () => {
+            hand.hit(player, deck);
+            console.log(hand.playersHands.get(player));
+            playerStack = playerStack - betMadeAmount;
+            betMadeAmount = betMadeAmount * 2;
+            betValueLabel.innerText = formatAsCurrency(betMadeAmount);
+            stackSpan.innerText = formatAsCurrency(playerStack);
+        });
+    }
+}
 function startGame(startingStackAmount) {
     return __awaiter(this, void 0, void 0, function* () {
         loadBlackjackDesign();
@@ -196,8 +207,16 @@ function startGame(startingStackAmount) {
             renderAllDealerCards(hand.dealerHand);
             renderAllPlayerCards(hand.playersHands.get(player[0]));
             hitButton(hand, player[0], deck);
+            doubleButton(hand, player[0], deck);
             if (Number(playerHandValue.innerText) === 21) {
                 console.log("BLACKJACK. YOU WON.");
+            }
+            else {
+                actionBtnHit.classList.toggle("hidden");
+                actionBtnStand.classList.toggle("hidden");
+            }
+            if (betMadeAmount * 2 <= playerStack) {
+                actionBtnDouble.classList.toggle("hidden");
             }
         }
     });
