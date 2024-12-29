@@ -167,6 +167,31 @@ async function renderAllPlayerCards(playerHandArr: Card[]){
         await new Promise((resolve) => setTimeout(resolve, 100));
     }
 }
+async function checkPlayerHand(){
+    while(true){
+        if(Number(playerHandValue.innerText)===21){
+            console.log("you won");
+            return;
+        }
+        if(Number(playerHandValue.innerText)>21){
+            console.log("you lost");
+            return;
+    }
+    await new Promise((resolve) => setTimeout(resolve, 100));
+}
+}
+
+function buttonShowingLogic(){
+    if(Number(playerHandValue.innerText)===21){
+        console.log("BLACKJACK. YOU WON.");
+    } else{
+        actionBtnHit.classList.toggle("hidden");
+        actionBtnStand.classList.toggle("hidden");
+    }
+    if(betMadeAmount*2<=playerStack){
+        actionBtnDouble.classList.toggle("hidden");
+    }
+}
 
 function hitButton(hand, player, deck){
     if(actionBtnHit){
@@ -208,15 +233,8 @@ async function startGame(startingStackAmount: number){
         renderAllPlayerCards(hand.playersHands.get(player[0]));
         hitButton(hand, player[0], deck);
         doubleButton(hand, player[0], deck);
-        if(Number(playerHandValue.innerText)===21){
-            console.log("BLACKJACK. YOU WON.");
-        } else{
-            actionBtnHit.classList.toggle("hidden");
-            actionBtnStand.classList.toggle("hidden");
-        }
-        if(betMadeAmount*2<=playerStack){
-            actionBtnDouble.classList.toggle("hidden");
-        }
+        checkPlayerHand();
+        buttonShowingLogic();
     }
 }
 

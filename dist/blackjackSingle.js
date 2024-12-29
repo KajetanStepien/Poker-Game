@@ -171,6 +171,33 @@ function renderAllPlayerCards(playerHandArr) {
         }
     });
 }
+function checkPlayerHand() {
+    return __awaiter(this, void 0, void 0, function* () {
+        while (true) {
+            if (Number(playerHandValue.innerText) === 21) {
+                console.log("you won");
+                return;
+            }
+            if (Number(playerHandValue.innerText) > 21) {
+                console.log("you lost");
+                return;
+            }
+            yield new Promise((resolve) => setTimeout(resolve, 100));
+        }
+    });
+}
+function buttonShowingLogic() {
+    if (Number(playerHandValue.innerText) === 21) {
+        console.log("BLACKJACK. YOU WON.");
+    }
+    else {
+        actionBtnHit.classList.toggle("hidden");
+        actionBtnStand.classList.toggle("hidden");
+    }
+    if (betMadeAmount * 2 <= playerStack) {
+        actionBtnDouble.classList.toggle("hidden");
+    }
+}
 function hitButton(hand, player, deck) {
     if (actionBtnHit) {
         actionBtnHit.addEventListener("click", () => {
@@ -208,16 +235,8 @@ function startGame(startingStackAmount) {
             renderAllPlayerCards(hand.playersHands.get(player[0]));
             hitButton(hand, player[0], deck);
             doubleButton(hand, player[0], deck);
-            if (Number(playerHandValue.innerText) === 21) {
-                console.log("BLACKJACK. YOU WON.");
-            }
-            else {
-                actionBtnHit.classList.toggle("hidden");
-                actionBtnStand.classList.toggle("hidden");
-            }
-            if (betMadeAmount * 2 <= playerStack) {
-                actionBtnDouble.classList.toggle("hidden");
-            }
+            checkPlayerHand();
+            buttonShowingLogic();
         }
     });
 }
