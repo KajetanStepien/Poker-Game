@@ -83,7 +83,7 @@ export class Hand {
             hand.push(deck.deal());
         }
     }
-    dealerHit(deck) {
+    dealerHit(deck, dealerHandValueNumber) {
         const hand = this.dealerHand;
         if (hand) {
             hand.push(deck.deal());

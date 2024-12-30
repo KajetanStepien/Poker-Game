@@ -55,6 +55,20 @@ function losthand() {
     actionBtnSplit.classList.add("hidden");
     return;
 }
+function wonhand() {
+    playerStack = playerStack + 2 * betMadeAmount;
+    actionBtnHit.classList.add("hidden");
+    actionBtnStand.classList.add("hidden");
+    actionBtnDouble.classList.add("hidden");
+    actionBtnSplit.classList.add("hidden");
+}
+function drawhand() {
+    playerStack = playerStack + betMadeAmount;
+    actionBtnHit.classList.add("hidden");
+    actionBtnStand.classList.add("hidden");
+    actionBtnDouble.classList.add("hidden");
+    actionBtnSplit.classList.add("hidden");
+}
 function bettingLogic(stackValue) {
     playerStack = stackValue;
     betMade = false;
@@ -143,22 +157,17 @@ function renderCard(src = "./assets/cards/bicycle_blue.png", type = "dealer") {
 }
 function renderAllDealerCards(dealerHandArr) {
     return __awaiter(this, void 0, void 0, function* () {
-        let firstSrc = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
-        renderCard(firstSrc);
-        let previousCardCount = 2;
-        dealerHandValueNumber = dealerHandArr[1].value;
-        while (true) {
-            if (dealerHandArr.length > previousCardCount) {
-                for (let i = previousCardCount; i < dealerHandArr.length; i++) {
-                    let src = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
-                    renderCard(src);
-                }
-                previousCardCount = dealerHandArr.length;
+        let previousCardCount = 1;
+        if (dealerHandArr.length > previousCardCount) {
+            for (let i = previousCardCount; i < dealerHandArr.length; i++) {
+                let src = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
+                renderCard(src);
             }
-            dealerHandValue.classList.remove("hidden");
-            dealerHandValue.innerText = String(dealerHandValueNumber);
-            yield new Promise((resolve) => setTimeout(resolve, 100));
+            previousCardCount = dealerHandArr.length;
         }
+        dealerHandValue.classList.remove("hidden");
+        dealerHandValue.innerText = String(dealerHandValueNumber);
+        yield new Promise((resolve) => setTimeout(resolve, 100));
     });
 }
 function renderAllPlayerCards(playerHandArr) {
@@ -187,29 +196,15 @@ function checkPlayerHand() {
     return __awaiter(this, void 0, void 0, function* () {
         while (true) {
             if ((Number(playerHandValue.innerText)) <= 21 && (Number(playerHandValue.innerText)) > dealerHandValueNumber) {
-                console.log("you won1");
-                console.log("player value: " + Number(playerHandValue.innerText));
-                console.log("dealer value: " + dealerHandValueNumber);
-                actionBtnHit.classList.add("hidden");
-                actionBtnStand.classList.add("hidden");
-                actionBtnDouble.classList.add("hidden");
-                actionBtnSplit.classList.add("hidden");
+                wonhand();
                 return;
             }
             if ((Number(playerHandValue.innerText)) <= 21 && dealerHandValueNumber > 21) {
-                console.log("you won2");
-                actionBtnHit.classList.add("hidden");
-                actionBtnStand.classList.add("hidden");
-                actionBtnDouble.classList.add("hidden");
-                actionBtnSplit.classList.add("hidden");
+                wonhand();
                 return;
             }
             if ((Number(playerHandValue.innerText)) === dealerHandValueNumber) {
-                console.log("draw");
-                actionBtnHit.classList.add("hidden");
-                actionBtnStand.classList.add("hidden");
-                actionBtnDouble.classList.add("hidden");
-                actionBtnSplit.classList.add("hidden");
+                drawhand();
                 return;
             }
             if (Number(playerHandValue.innerText) > 21) {
@@ -224,17 +219,16 @@ function checkPlayerHand() {
         }
     });
 }
-function buttonShowingLogic() {
-    if (Number(playerHandValue.innerText) === 21) {
-        console.log("BLACKJACK. YOU WON.");
+function buttonShowingLogic(hand, deck) {
+    if (betMadeAmount < playerStack) {
         actionBtnDouble.classList.toggle("hidden");
+    }
+    if (Number(playerHandValue.innerText) === 21) {
+        dealDealerHand(hand.dealerHand, hand, deck);
     }
     else {
         actionBtnHit.classList.toggle("hidden");
         actionBtnStand.classList.toggle("hidden");
-    }
-    if (betMadeAmount * 2 <= playerStack) {
-        actionBtnDouble.classList.toggle("hidden");
     }
 }
 function hitButton(hand, player, deck) {
@@ -276,14 +270,13 @@ function standButton(hand, deck) {
 function dealDealerHand(dealerHandArr, hand, deck) {
     const dealerCardsSlot = document.getElementById("dealer-card-slots");
     dealerCardsSlot.removeChild(dealerCardsSlot.firstElementChild);
-    let firstDealerCardSrc = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";
+    dealerCardsSlot.removeChild(dealerCardsSlot.firstElementChild);
     let backSuitCardSrc = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";
     ;
     const backsuitCard = document.createElement("img");
     backsuitCard.src = backSuitCardSrc;
     dealerCardsSlot.prepend(backsuitCard);
     console.log("Ee");
-    dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[0].value;
     while (dealerHandValueNumber < 17) {
         hand.dealerHit(deck);
         console.log(hand.dealerHand);
@@ -292,6 +285,7 @@ function dealDealerHand(dealerHandArr, hand, deck) {
             dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[i].value;
         }
     }
+    renderAllDealerCards(dealerHandArr);
     checkPlayerHand();
 }
 function startGame(startingStackAmount) {
@@ -306,13 +300,14 @@ function startGame(startingStackAmount) {
         if (betMade) {
             deck.shuffle();
             hand.start(player, deck);
+            dealerHandValueNumber = hand.dealerHand[1].value;
             renderCard();
             renderAllDealerCards(hand.dealerHand);
             renderAllPlayerCards(hand.playersHands.get(player[0]));
             hitButton(hand, player[0], deck);
             doubleButton(hand, player[0], deck);
             standButton(hand, deck);
-            buttonShowingLogic();
+            buttonShowingLogic(hand, deck);
         }
     });
 }
