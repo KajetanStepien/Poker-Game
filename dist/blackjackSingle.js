@@ -47,6 +47,14 @@ function sendBet() {
     betValue = 0;
     playerStack = playerStack - betMadeAmount;
 }
+function losthand() {
+    console.log("you lost");
+    actionBtnHit.classList.add("hidden");
+    actionBtnStand.classList.add("hidden");
+    actionBtnDouble.classList.add("hidden");
+    actionBtnSplit.classList.add("hidden");
+    return;
+}
 function bettingLogic(stackValue) {
     playerStack = stackValue;
     betMade = false;
@@ -167,6 +175,9 @@ function renderAllPlayerCards(playerHandArr) {
                 previousCardCount = playerHandArr.length;
                 playerHandValue.classList.remove("hidden");
                 playerHandValue.innerText = String(playerHandValueNumber);
+                if (playerHandValueNumber > 21) {
+                    losthand();
+                }
             }
             yield new Promise((resolve) => setTimeout(resolve, 100));
         }
@@ -175,8 +186,26 @@ function renderAllPlayerCards(playerHandArr) {
 function checkPlayerHand() {
     return __awaiter(this, void 0, void 0, function* () {
         while (true) {
-            if (Number(playerHandValue.innerText) === 21) {
-                console.log("you won");
+            if ((Number(playerHandValue.innerText)) <= 21 && (Number(playerHandValue.innerText)) > dealerHandValueNumber) {
+                console.log("you won1");
+                console.log("player value: " + Number(playerHandValue.innerText));
+                console.log("dealer value: " + dealerHandValueNumber);
+                actionBtnHit.classList.add("hidden");
+                actionBtnStand.classList.add("hidden");
+                actionBtnDouble.classList.add("hidden");
+                actionBtnSplit.classList.add("hidden");
+                return;
+            }
+            if ((Number(playerHandValue.innerText)) <= 21 && dealerHandValueNumber > 21) {
+                console.log("you won2");
+                actionBtnHit.classList.add("hidden");
+                actionBtnStand.classList.add("hidden");
+                actionBtnDouble.classList.add("hidden");
+                actionBtnSplit.classList.add("hidden");
+                return;
+            }
+            if ((Number(playerHandValue.innerText)) === dealerHandValueNumber) {
+                console.log("draw");
                 actionBtnHit.classList.add("hidden");
                 actionBtnStand.classList.add("hidden");
                 actionBtnDouble.classList.add("hidden");
@@ -184,11 +213,11 @@ function checkPlayerHand() {
                 return;
             }
             if (Number(playerHandValue.innerText) > 21) {
-                console.log("you lost");
-                actionBtnHit.classList.add("hidden");
-                actionBtnStand.classList.add("hidden");
-                actionBtnDouble.classList.add("hidden");
-                actionBtnSplit.classList.add("hidden");
+                losthand();
+                return;
+            }
+            if (Number(playerHandValue.innerText) <= 21 && dealerHandValueNumber <= 21 && Number(playerHandValue.innerText) < dealerHandValueNumber) {
+                losthand();
                 return;
             }
             yield new Promise((resolve) => setTimeout(resolve, 100));
@@ -198,6 +227,7 @@ function checkPlayerHand() {
 function buttonShowingLogic() {
     if (Number(playerHandValue.innerText) === 21) {
         console.log("BLACKJACK. YOU WON.");
+        actionBtnDouble.classList.toggle("hidden");
     }
     else {
         actionBtnHit.classList.toggle("hidden");
@@ -257,8 +287,12 @@ function dealDealerHand(dealerHandArr, hand, deck) {
     while (dealerHandValueNumber < 17) {
         hand.dealerHit(deck);
         console.log(hand.dealerHand);
-        dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[dealerHandArr.length - 1].value;
+        dealerHandValueNumber = 0;
+        for (let i = 0; i < dealerHandArr.length; i++) {
+            dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[i].value;
+        }
     }
+    checkPlayerHand();
 }
 function startGame(startingStackAmount) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -278,7 +312,6 @@ function startGame(startingStackAmount) {
             hitButton(hand, player[0], deck);
             doubleButton(hand, player[0], deck);
             standButton(hand, deck);
-            checkPlayerHand();
             buttonShowingLogic();
         }
     });
