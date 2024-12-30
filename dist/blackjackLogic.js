@@ -83,6 +83,12 @@ export class Hand {
             hand.push(deck.deal());
         }
     }
+    dealerHit(deck) {
+        const hand = this.dealerHand;
+        if (hand) {
+            hand.push(deck.deal());
+        }
+    }
     calculateScore(hand) {
         return hand.reduce((acc, card) => acc + card.value, 0);
     }

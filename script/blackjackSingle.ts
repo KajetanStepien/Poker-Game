@@ -27,6 +27,7 @@ let betValue: number;
 let betMadeAmount: number;
 let playerStack: number;
 let betMade: boolean;
+let dealerHandValueNumber: number;
 
 function formatAsCurrency(amount: number, vaultStyle: keyof Intl.NumberFormatOptionsStyleRegistry = "currency",  currency: string = "USD", locale: string = "en-US"): string{
     return new Intl.NumberFormat(locale, {
@@ -135,7 +136,7 @@ async function renderAllDealerCards(dealerHandArr: Card[]){
     let firstSrc: string = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
     renderCard(firstSrc);
     let previousCardCount = 2;
-    let dealerHandValueNumber: number = dealerHandArr[1].value;
+    dealerHandValueNumber = dealerHandArr[1].value;
     while(true){
         if(dealerHandArr.length>previousCardCount){
             for(let i = previousCardCount; i<dealerHandArr.length; i++){
@@ -171,10 +172,18 @@ async function checkPlayerHand(){
     while(true){
         if(Number(playerHandValue.innerText)===21){
             console.log("you won");
+            actionBtnHit.classList.add("hidden");
+            actionBtnStand.classList.add("hidden");
+            actionBtnDouble.classList.add("hidden");
+            actionBtnSplit.classList.add("hidden");
             return;
         }
         if(Number(playerHandValue.innerText)>21){
             console.log("you lost");
+            actionBtnHit.classList.add("hidden");
+            actionBtnStand.classList.add("hidden");
+            actionBtnDouble.classList.add("hidden");
+            actionBtnSplit.classList.add("hidden");
             return;
     }
     await new Promise((resolve) => setTimeout(resolve, 100));
@@ -197,7 +206,12 @@ function hitButton(hand, player, deck){
     if(actionBtnHit){
     actionBtnHit.addEventListener("click", ()=>{
         hand.hit(player, deck);
-        console.log(hand.playersHands.get(player));
+        const playerHand = hand.playersHands.get(player);
+        console.log(playerHand);
+        const lastCard = playerHand[playerHand.length - 1];
+        if(lastCard.rank === "A" && (Number(playerHandValue.innerText)>10)){
+            lastCard.value = 1;
+        }
     })
     }
 }
@@ -212,6 +226,37 @@ function doubleButton(hand, player, deck){
             stackSpan.innerText = formatAsCurrency(playerStack); 
         })
         }
+}
+
+function standButton(hand, deck){
+    if(actionBtnStand){
+        actionBtnStand.addEventListener("click", ()=>{
+            actionBtnHit.classList.add("hidden");
+            actionBtnStand.classList.add("hidden");
+            actionBtnDouble.classList.add("hidden");
+            actionBtnSplit.classList.add("hidden");
+            dealDealerHand(hand.dealerHand, hand, deck);
+        })
+    }
+}
+
+function dealDealerHand(dealerHandArr: Card[], hand, deck){
+    const dealerCardsSlot: HTMLElement = document.getElementById("dealer-card-slots");
+    dealerCardsSlot.removeChild(dealerCardsSlot.firstElementChild);
+    let firstDealerCardSrc: string = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";
+    let backSuitCardSrc: string = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";;
+    const backsuitCard: HTMLImageElement = document.createElement("img");
+    backsuitCard.src = backSuitCardSrc;
+    dealerCardsSlot.prepend(backsuitCard);
+    console.log("Ee");
+    dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[0].value;
+
+    while(dealerHandValueNumber<17){
+        hand.dealerHit(deck);
+        console.log(hand.dealerHand);
+        dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[dealerHandArr.length - 1].value;
+    }
+
 }
 
 
@@ -233,6 +278,7 @@ async function startGame(startingStackAmount: number){
         renderAllPlayerCards(hand.playersHands.get(player[0]));
         hitButton(hand, player[0], deck);
         doubleButton(hand, player[0], deck);
+        standButton(hand, deck);
         checkPlayerHand();
         buttonShowingLogic();
     }

@@ -34,6 +34,7 @@ let betValue;
 let betMadeAmount;
 let playerStack;
 let betMade;
+let dealerHandValueNumber;
 function formatAsCurrency(amount, vaultStyle = "currency", currency = "USD", locale = "en-US") {
     return new Intl.NumberFormat(locale, {
         style: vaultStyle,
@@ -137,7 +138,7 @@ function renderAllDealerCards(dealerHandArr) {
         let firstSrc = "./assets/cards/" + dealerHandArr[1].rank + dealerHandArr[1].suit + ".png";
         renderCard(firstSrc);
         let previousCardCount = 2;
-        let dealerHandValueNumber = dealerHandArr[1].value;
+        dealerHandValueNumber = dealerHandArr[1].value;
         while (true) {
             if (dealerHandArr.length > previousCardCount) {
                 for (let i = previousCardCount; i < dealerHandArr.length; i++) {
@@ -176,10 +177,18 @@ function checkPlayerHand() {
         while (true) {
             if (Number(playerHandValue.innerText) === 21) {
                 console.log("you won");
+                actionBtnHit.classList.add("hidden");
+                actionBtnStand.classList.add("hidden");
+                actionBtnDouble.classList.add("hidden");
+                actionBtnSplit.classList.add("hidden");
                 return;
             }
             if (Number(playerHandValue.innerText) > 21) {
                 console.log("you lost");
+                actionBtnHit.classList.add("hidden");
+                actionBtnStand.classList.add("hidden");
+                actionBtnDouble.classList.add("hidden");
+                actionBtnSplit.classList.add("hidden");
                 return;
             }
             yield new Promise((resolve) => setTimeout(resolve, 100));
@@ -202,7 +211,12 @@ function hitButton(hand, player, deck) {
     if (actionBtnHit) {
         actionBtnHit.addEventListener("click", () => {
             hand.hit(player, deck);
-            console.log(hand.playersHands.get(player));
+            const playerHand = hand.playersHands.get(player);
+            console.log(playerHand);
+            const lastCard = playerHand[playerHand.length - 1];
+            if (lastCard.rank === "A" && (Number(playerHandValue.innerText) > 10)) {
+                lastCard.value = 1;
+            }
         });
     }
 }
@@ -216,6 +230,34 @@ function doubleButton(hand, player, deck) {
             betValueLabel.innerText = formatAsCurrency(betMadeAmount);
             stackSpan.innerText = formatAsCurrency(playerStack);
         });
+    }
+}
+function standButton(hand, deck) {
+    if (actionBtnStand) {
+        actionBtnStand.addEventListener("click", () => {
+            actionBtnHit.classList.add("hidden");
+            actionBtnStand.classList.add("hidden");
+            actionBtnDouble.classList.add("hidden");
+            actionBtnSplit.classList.add("hidden");
+            dealDealerHand(hand.dealerHand, hand, deck);
+        });
+    }
+}
+function dealDealerHand(dealerHandArr, hand, deck) {
+    const dealerCardsSlot = document.getElementById("dealer-card-slots");
+    dealerCardsSlot.removeChild(dealerCardsSlot.firstElementChild);
+    let firstDealerCardSrc = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";
+    let backSuitCardSrc = "./assets/cards/" + dealerHandArr[0].rank + dealerHandArr[0].suit + ".png";
+    ;
+    const backsuitCard = document.createElement("img");
+    backsuitCard.src = backSuitCardSrc;
+    dealerCardsSlot.prepend(backsuitCard);
+    console.log("Ee");
+    dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[0].value;
+    while (dealerHandValueNumber < 17) {
+        hand.dealerHit(deck);
+        console.log(hand.dealerHand);
+        dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[dealerHandArr.length - 1].value;
     }
 }
 function startGame(startingStackAmount) {
@@ -235,6 +277,7 @@ function startGame(startingStackAmount) {
             renderAllPlayerCards(hand.playersHands.get(player[0]));
             hitButton(hand, player[0], deck);
             doubleButton(hand, player[0], deck);
+            standButton(hand, deck);
             checkPlayerHand();
             buttonShowingLogic();
         }
