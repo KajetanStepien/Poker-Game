@@ -14,6 +14,17 @@ export class Game {
         this.deck.shuffle();
         this.currentHand.start(this.players, this.deck);
     }
+    resetGame() {
+        // Reset the deck
+        this.deck = new Deck(); // Create a new deck
+        this.deck.shuffle();
+
+        // Reset the hands
+        this.currentHand = new Hand(); // Create a new hand instance
+
+        // Restart the game
+        this.currentHand.start(this.players, this.deck);
+    }
 }
 export class Deck{
     cards: Card[];

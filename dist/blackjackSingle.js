@@ -30,6 +30,9 @@ const actionBtnHit = document.getElementById("action-btn-hit");
 const actionBtnStand = document.getElementById("action-btn-stand");
 const actionBtnDouble = document.getElementById("action-btn-dd");
 const actionBtnSplit = document.getElementById("action-btn-split");
+const dealerCardsSlot = document.getElementById("dealer-card-slots");
+const playerCardsSlot = document.getElementById("player-card-slots");
+const newHandBtn = document.getElementById("newhand-button");
 let betValue;
 let betMadeAmount;
 let playerStack;
@@ -53,10 +56,10 @@ function losthand() {
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
-    return;
 }
 function wonhand() {
     playerStack = playerStack + 2 * betMadeAmount;
+    stackSpan.innerText = formatAsCurrency(playerStack);
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
@@ -64,10 +67,21 @@ function wonhand() {
 }
 function drawhand() {
     playerStack = playerStack + betMadeAmount;
+    stackSpan.innerText = formatAsCurrency(playerStack);
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
+}
+function resetTable() {
+    let cardsImg = dealerCardsSlot.children;
+    let cardsImgArray = Array.from(cardsImg).filter(child => child.tagName === "IMG");
+    cardsImgArray.forEach(img => dealerCardsSlot.removeChild(img));
+    cardsImg = playerCardsSlot.children;
+    cardsImgArray = Array.from(cardsImg).filter(child => child.tagName === "IMG");
+    cardsImgArray.forEach(img => playerCardsSlot.removeChild(img));
+}
+function newHand() {
 }
 function bettingLogic(stackValue) {
     playerStack = stackValue;
@@ -141,14 +155,12 @@ function allowBetPlacing() {
 }
 function renderCard(src = "./assets/cards/bicycle_blue.png", type = "dealer") {
     if (type === "dealer") {
-        const dealerCardsSlot = document.getElementById("dealer-card-slots");
         let backSuitCardSrc = src;
         const backsuitCard = document.createElement("img");
         backsuitCard.src = backSuitCardSrc;
         dealerCardsSlot.insertBefore(backsuitCard, dealerHandValue);
     }
     if (type === "player") {
-        const playerCardsSlot = document.getElementById("player-card-slots");
         let CardSrc = src;
         const Card = document.createElement("img");
         Card.src = CardSrc;
@@ -294,21 +306,38 @@ function startGame(startingStackAmount) {
         allowBetPlacing();
         yield bettingLogic(startingStackAmount);
         const game = new Game();
-        const deck = new Deck();
+        let deck = new Deck();
         const player = game.initializePlayers(1, startingStackAmount);
         const hand = new Hand();
-        if (betMade) {
+        const startNewRound = () => {
             deck.shuffle();
             hand.start(player, deck);
             dealerHandValueNumber = hand.dealerHand[1].value;
             renderCard();
             renderAllDealerCards(hand.dealerHand);
             renderAllPlayerCards(hand.playersHands.get(player[0]));
+        };
+        if (betMade) {
+            startNewRound();
             hitButton(hand, player[0], deck);
             doubleButton(hand, player[0], deck);
             standButton(hand, deck);
             buttonShowingLogic(hand, deck);
         }
+        newHandBtn.addEventListener("click", () => {
+            console.log(hand.playersHands.get(player[0]));
+            console.log(hand.dealerHand);
+            console.log(deck);
+            hand.playersHands.clear();
+            hand.dealerHand = [];
+            deck = new Deck();
+            resetTable();
+            startNewRound();
+            allowBetPlacing();
+            console.log(hand.playersHands.get(player[0]));
+            console.log(hand.dealerHand);
+            console.log(deck);
+        });
     });
 }
 export function blackjackSingleLogic() {
