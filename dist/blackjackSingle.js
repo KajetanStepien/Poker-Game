@@ -162,13 +162,21 @@ function renderCard(src = "./assets/cards/bicycle_blue.png", type = "dealer") {
         let backSuitCardSrc = src;
         const backsuitCard = document.createElement("img");
         backsuitCard.src = backSuitCardSrc;
+        backsuitCard.classList.add("card");
         dealerCardsSlot.insertBefore(backsuitCard, dealerHandValue);
+        setTimeout(() => {
+            backsuitCard.classList.add("animate");
+        }, 10);
     }
     if (type === "player") {
         let CardSrc = src;
         const Card = document.createElement("img");
         Card.src = CardSrc;
+        Card.classList.add("card");
         playerCardsSlot.insertBefore(Card, playerHandValue);
+        setTimeout(() => {
+            Card.classList.add("animate");
+        }, 10);
     }
 }
 function renderAllDealerCards(dealerHandArr) {
@@ -178,12 +186,12 @@ function renderAllDealerCards(dealerHandArr) {
             for (let i = previousCardCount; i < dealerHandArr.length; i++) {
                 let src = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
                 renderCard(src);
+                previousCardCount = dealerHandArr.length;
             }
-            previousCardCount = dealerHandArr.length;
         }
         dealerHandValue.classList.remove("hidden");
         dealerHandValue.innerText = String(dealerHandValueNumber);
-        yield new Promise((resolve) => setTimeout(resolve, 100));
+        yield new Promise((resolve) => setTimeout(resolve, 400));
     });
 }
 function renderAllPlayerCards(playerHandArr) {

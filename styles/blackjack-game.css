@@ -239,4 +239,14 @@
   background: linear-gradient(to right, rgba(11, 104, 39, 0.5), rgba(3, 36, 13, 0.5));
 }
 
+.card {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.card.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 /*# sourceMappingURL=blackjack-game.css.map */

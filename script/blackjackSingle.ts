@@ -166,28 +166,38 @@ function renderCard(src: string = "./assets/cards/bicycle_blue.png", type: strin
         let backSuitCardSrc: string = src;
         const backsuitCard: HTMLImageElement = document.createElement("img");
         backsuitCard.src = backSuitCardSrc;
+        backsuitCard.classList.add("card");
         dealerCardsSlot.insertBefore(backsuitCard, dealerHandValue);
+
+        setTimeout(()=>{
+            backsuitCard.classList.add("animate");
+        }, 10);
     }
 
     if(type==="player"){
         let CardSrc: string = src;
         const Card: HTMLImageElement = document.createElement("img");
         Card.src = CardSrc;
+        Card.classList.add("card");
         playerCardsSlot.insertBefore(Card, playerHandValue);
+
+        setTimeout(()=>{
+            Card.classList.add("animate");
+        }, 10);
     }
 }
 async function renderAllDealerCards(dealerHandArr: Card[]){
     let previousCardCount = 1;
         if(dealerHandArr.length>previousCardCount){
             for(let i = previousCardCount; i<dealerHandArr.length; i++){
-                let src: string = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
-                renderCard(src);
+                    let src: string = "./assets/cards/" + dealerHandArr[i].rank + dealerHandArr[i].suit + ".png";
+                    renderCard(src);
+                    previousCardCount = dealerHandArr.length;
             }
-            previousCardCount = dealerHandArr.length;
         }
         dealerHandValue.classList.remove("hidden");
         dealerHandValue.innerText = String(dealerHandValueNumber);
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 400));
 }
 
 async function renderAllPlayerCards(playerHandArr: Card[]){
