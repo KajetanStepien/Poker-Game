@@ -4,7 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap");
 .blackjack-menu {
   width: 25rem;
-  background-image: url("../assets/menu-background.jpg");
+  background-image: url("../assets/menu-background.webp");
   background-size: 225%;
   padding: 1.5rem;
   display: flex;
@@ -106,7 +106,7 @@
 .blackjackTable {
   width: 1000px;
   height: 611px;
-  background-image: url("/assets/blackjack-table.png");
+  background-image: url("/assets/blackjack-table.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
