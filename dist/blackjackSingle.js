@@ -51,11 +51,11 @@ function sendBet() {
     playerStack = playerStack - betMadeAmount;
 }
 function losthand() {
-    console.log("you lost");
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
+    newHandBtn.classList.toggle("hidden");
 }
 function wonhand() {
     playerStack = playerStack + 2 * betMadeAmount;
@@ -64,6 +64,7 @@ function wonhand() {
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
+    newHandBtn.classList.toggle("hidden");
 }
 function drawhand() {
     playerStack = playerStack + betMadeAmount;
@@ -72,11 +73,13 @@ function drawhand() {
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
+    newHandBtn.classList.toggle("hidden");
 }
 function resetTable() {
     dealerHandValue.classList.add("hidden");
     playerHandValue.classList.add("hidden");
     betValueLabel.classList.add("hidden");
+    newHandBtn.classList.add("hidden");
     let cardsImg = dealerCardsSlot.children;
     let cardsImgArray = Array.from(cardsImg).filter(child => child.tagName === "IMG");
     cardsImgArray.forEach(img => dealerCardsSlot.removeChild(img));
@@ -126,8 +129,6 @@ function bettingLogic(stackValue) {
                     else {
                         betValue = Number(valueSpan.innerText.replace(/,/g, ""));
                         sendBet();
-                        console.log(betMadeAmount);
-                        console.log(playerStack);
                         valueSpan.innerText = "0.00";
                         rangeBetInput.value = "0";
                         betButtonElement.innerText = "BET";
@@ -252,7 +253,6 @@ function hitButton(hand, player, deck) {
     hitBtnLogic = () => {
         hand.hit(player, deck);
         const playerHand = hand.playersHands.get(player);
-        console.log(playerHand);
         const lastCard = playerHand[playerHand.length - 1];
         if (lastCard.rank === "A" && (Number(playerHandValue.innerText) > 10)) {
             lastCard.value = 1;
@@ -266,7 +266,6 @@ function doubleButton(hand, player, deck) {
     if (actionBtnDouble) {
         actionBtnDouble.addEventListener("click", () => {
             hand.hit(player, deck);
-            console.log(hand.playersHands.get(player));
             playerStack = playerStack - betMadeAmount;
             betMadeAmount = betMadeAmount * 2;
             betValueLabel.innerText = formatAsCurrency(betMadeAmount);
@@ -283,7 +282,6 @@ function standButton(hand, deck) {
         actionBtnDouble.classList.add("hidden");
         actionBtnSplit.classList.add("hidden");
         dealDealerHand(hand.dealerHand, hand, deck);
-        console.log("Wywołano dealdealer");
     };
     if (actionBtnStand) {
         actionBtnStand.addEventListener("click", (actionBtnLogic));
@@ -298,10 +296,13 @@ function dealDealerHand(dealerHandArr, hand, deck) {
     const backsuitCard = document.createElement("img");
     backsuitCard.src = backSuitCardSrc;
     dealerCardsSlot.prepend(backsuitCard);
-    console.log("Ee");
+    dealerHandValueNumber = dealerHandArr[0].value + dealerHandArr[1].value;
     while (dealerHandValueNumber < 17) {
         hand.dealerHit(deck);
-        console.log(hand.dealerHand);
+        const lastCard = dealerHandArr[dealerHandArr.length - 1];
+        if (lastCard.rank === "A" && (dealerHandValueNumber) > 10) {
+            lastCard.value = 1;
+        }
         dealerHandValueNumber = 0;
         for (let i = 0; i < dealerHandArr.length; i++) {
             dealerHandValueNumber = dealerHandValueNumber + dealerHandArr[i].value;
@@ -328,17 +329,11 @@ function startGame(startingStackAmount) {
             renderAllPlayerCards(hand.playersHands.get(player[0]));
         };
         newHandBtn.addEventListener("click", () => {
-            console.log(hand.playersHands.get(player[0]));
-            console.log(hand.dealerHand);
-            console.log(deck);
             hand.playersHands.clear();
             hand.dealerHand = [];
             deck = new Deck();
             resetTable();
             allowBetPlacing();
-            console.log(hand.playersHands.get(player[0]));
-            console.log(hand.dealerHand);
-            console.log(deck);
         });
         while (true) {
             if (betMade) {

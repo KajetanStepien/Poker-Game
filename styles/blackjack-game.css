@@ -208,7 +208,7 @@
   border: 2px solid rgb(128, 128, 128);
   cursor: grabbing;
 }
-.playerName-container #bet-button, .playerName-container .action-btn {
+.playerName-container #bet-button, .playerName-container .action-btn, .playerName-container #newhand-button {
   height: 64px;
   min-width: 100px;
   width: 100%;
@@ -222,10 +222,10 @@
   margin: 0px 5px 0px 5px;
   line-height: 1;
 }
-.playerName-container #bet-button:hover, .playerName-container .action-btn:hover {
+.playerName-container #bet-button:hover, .playerName-container .action-btn:hover, .playerName-container #newhand-button:hover {
   filter: brightness(1.25);
 }
-.playerName-container #bet-button.betBtn-confirm, .playerName-container .action-btn.betBtn-confirm {
+.playerName-container #bet-button.betBtn-confirm, .playerName-container .action-btn.betBtn-confirm, .playerName-container #newhand-button.betBtn-confirm {
   color: rgb(37, 196, 37);
 }
 
