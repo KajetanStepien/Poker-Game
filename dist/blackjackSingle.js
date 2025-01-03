@@ -74,6 +74,9 @@ function drawhand() {
     actionBtnSplit.classList.add("hidden");
 }
 function resetTable() {
+    dealerHandValue.classList.add("hidden");
+    playerHandValue.classList.add("hidden");
+    betValueLabel.classList.add("hidden");
     let cardsImg = dealerCardsSlot.children;
     let cardsImgArray = Array.from(cardsImg).filter(child => child.tagName === "IMG");
     cardsImgArray.forEach(img => dealerCardsSlot.removeChild(img));
@@ -243,17 +246,20 @@ function buttonShowingLogic(hand, deck) {
         actionBtnStand.classList.toggle("hidden");
     }
 }
+let hitBtnLogic;
 function hitButton(hand, player, deck) {
+    actionBtnHit.removeEventListener("click", (hitBtnLogic));
+    hitBtnLogic = () => {
+        hand.hit(player, deck);
+        const playerHand = hand.playersHands.get(player);
+        console.log(playerHand);
+        const lastCard = playerHand[playerHand.length - 1];
+        if (lastCard.rank === "A" && (Number(playerHandValue.innerText) > 10)) {
+            lastCard.value = 1;
+        }
+    };
     if (actionBtnHit) {
-        actionBtnHit.addEventListener("click", () => {
-            hand.hit(player, deck);
-            const playerHand = hand.playersHands.get(player);
-            console.log(playerHand);
-            const lastCard = playerHand[playerHand.length - 1];
-            if (lastCard.rank === "A" && (Number(playerHandValue.innerText) > 10)) {
-                lastCard.value = 1;
-            }
-        });
+        actionBtnHit.addEventListener("click", (hitBtnLogic));
     }
 }
 function doubleButton(hand, player, deck) {
@@ -268,15 +274,19 @@ function doubleButton(hand, player, deck) {
         });
     }
 }
+let actionBtnLogic;
 function standButton(hand, deck) {
+    actionBtnStand.removeEventListener("click", (actionBtnLogic));
+    actionBtnLogic = () => {
+        actionBtnHit.classList.add("hidden");
+        actionBtnStand.classList.add("hidden");
+        actionBtnDouble.classList.add("hidden");
+        actionBtnSplit.classList.add("hidden");
+        dealDealerHand(hand.dealerHand, hand, deck);
+        console.log("Wywołano dealdealer");
+    };
     if (actionBtnStand) {
-        actionBtnStand.addEventListener("click", () => {
-            actionBtnHit.classList.add("hidden");
-            actionBtnStand.classList.add("hidden");
-            actionBtnDouble.classList.add("hidden");
-            actionBtnSplit.classList.add("hidden");
-            dealDealerHand(hand.dealerHand, hand, deck);
-        });
+        actionBtnStand.addEventListener("click", (actionBtnLogic));
     }
 }
 function dealDealerHand(dealerHandArr, hand, deck) {
@@ -317,13 +327,6 @@ function startGame(startingStackAmount) {
             renderAllDealerCards(hand.dealerHand);
             renderAllPlayerCards(hand.playersHands.get(player[0]));
         };
-        if (betMade) {
-            startNewRound();
-            hitButton(hand, player[0], deck);
-            doubleButton(hand, player[0], deck);
-            standButton(hand, deck);
-            buttonShowingLogic(hand, deck);
-        }
         newHandBtn.addEventListener("click", () => {
             console.log(hand.playersHands.get(player[0]));
             console.log(hand.dealerHand);
@@ -332,12 +335,22 @@ function startGame(startingStackAmount) {
             hand.dealerHand = [];
             deck = new Deck();
             resetTable();
-            startNewRound();
             allowBetPlacing();
             console.log(hand.playersHands.get(player[0]));
             console.log(hand.dealerHand);
             console.log(deck);
         });
+        while (true) {
+            if (betMade) {
+                startNewRound();
+                hitButton(hand, player[0], deck);
+                doubleButton(hand, player[0], deck);
+                standButton(hand, deck);
+                buttonShowingLogic(hand, deck);
+                betMade = false;
+            }
+            yield new Promise((resolve) => setTimeout(resolve, 100));
+        }
     });
 }
 export function blackjackSingleLogic() {
