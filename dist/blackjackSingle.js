@@ -51,29 +51,32 @@ function sendBet() {
     playerStack = playerStack - betMadeAmount;
 }
 function losthand() {
+    console.log("losthand");
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
-    newHandBtn.classList.toggle("hidden");
+    newHandBtn.classList.remove("hidden");
 }
 function wonhand() {
+    console.log("wonhand");
     playerStack = playerStack + 2 * betMadeAmount;
     stackSpan.innerText = formatAsCurrency(playerStack);
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
-    newHandBtn.classList.toggle("hidden");
+    newHandBtn.classList.remove("hidden");
 }
 function drawhand() {
+    console.log("drawhand");
     playerStack = playerStack + betMadeAmount;
     stackSpan.innerText = formatAsCurrency(playerStack);
     actionBtnHit.classList.add("hidden");
     actionBtnStand.classList.add("hidden");
     actionBtnDouble.classList.add("hidden");
     actionBtnSplit.classList.add("hidden");
-    newHandBtn.classList.toggle("hidden");
+    newHandBtn.classList.remove("hidden");
 }
 function resetTable() {
     dealerHandValue.classList.add("hidden");
@@ -86,8 +89,6 @@ function resetTable() {
     cardsImg = playerCardsSlot.children;
     cardsImgArray = Array.from(cardsImg).filter(child => child.tagName === "IMG");
     cardsImgArray.forEach(img => playerCardsSlot.removeChild(img));
-}
-function newHand() {
 }
 function bettingLogic(stackValue) {
     playerStack = stackValue;
@@ -218,31 +219,34 @@ function renderAllPlayerCards(playerHandArr) {
 }
 function checkPlayerHand() {
     return __awaiter(this, void 0, void 0, function* () {
-        while (true) {
-            if ((Number(playerHandValue.innerText)) <= 21 && (Number(playerHandValue.innerText)) > dealerHandValueNumber) {
-                wonhand();
-                return;
-            }
-            if ((Number(playerHandValue.innerText)) <= 21 && dealerHandValueNumber > 21) {
-                wonhand();
-                return;
-            }
-            if ((Number(playerHandValue.innerText)) === dealerHandValueNumber) {
-                drawhand();
-                return;
-            }
-            if (Number(playerHandValue.innerText) > 21) {
-                losthand();
-                return;
-            }
-            if (Number(playerHandValue.innerText) <= 21 && dealerHandValueNumber <= 21 && Number(playerHandValue.innerText) < dealerHandValueNumber) {
-                losthand();
-                return;
-            }
-            yield new Promise((resolve) => setTimeout(resolve, 100));
+        const playerValue = Number(playerHandValue.innerText);
+        const dealerValue = dealerHandValueNumber;
+        // Draw
+        if (playerValue === dealerValue) {
+            drawhand();
+            return;
+        }
+        // Player lost
+        if (playerValue > 21) {
+            losthand();
+            return;
+        }
+        if (playerValue <= 21 && dealerValue <= 21 && playerValue < dealerValue) {
+            losthand();
+            return;
+        }
+        // Player wins
+        if (playerValue <= 21 && playerValue > dealerValue) {
+            wonhand();
+            return;
+        }
+        if (playerValue <= 21 && dealerValue > 21) {
+            wonhand();
+            return;
         }
     });
 }
+;
 function buttonShowingLogic(hand, deck) {
     if (betMadeAmount < playerStack) {
         actionBtnDouble.classList.toggle("hidden");
@@ -270,15 +274,28 @@ function hitButton(hand, player, deck) {
         actionBtnHit.addEventListener("click", (hitBtnLogic));
     }
 }
+let doubleBtnLogic;
 function doubleButton(hand, player, deck) {
+    actionBtnDouble.removeEventListener("click", (doubleBtnLogic));
+    doubleBtnLogic = () => __awaiter(this, void 0, void 0, function* () {
+        playerStack = playerStack - betMadeAmount;
+        betMadeAmount = betMadeAmount * 2;
+        hand.hit(player, deck);
+        betValueLabel.innerText = formatAsCurrency(betMadeAmount);
+        stackSpan.innerText = formatAsCurrency(playerStack);
+        const playerHand = hand.playersHands.get(player);
+        let playerHandValueNumber = 0;
+        for (let i = 0; i < playerHand.length; i++) {
+            playerHandValueNumber = playerHandValueNumber + playerHand[i].value;
+        }
+        if (playerHandValueNumber > 21) {
+            losthand();
+            return;
+        }
+        actionBtnLogic();
+    });
     if (actionBtnDouble) {
-        actionBtnDouble.addEventListener("click", () => {
-            hand.hit(player, deck);
-            playerStack = playerStack - betMadeAmount;
-            betMadeAmount = betMadeAmount * 2;
-            betValueLabel.innerText = formatAsCurrency(betMadeAmount);
-            stackSpan.innerText = formatAsCurrency(playerStack);
-        });
+        actionBtnDouble.addEventListener("click", (doubleBtnLogic));
     }
 }
 let actionBtnLogic;
