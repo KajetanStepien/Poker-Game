@@ -5,6 +5,7 @@ import { Hand } from "./blackjackLogic.js";
 import { Card } from "./blackjackLogic.js";
 const continueButton = document.getElementById("bjContinue-btn") as HTMLButtonElement;
 const playersSelect = document.getElementById("bjSelect-players") as HTMLSelectElement;
+const playerNickname = document.getElementById("bjInput-nickname") as HTMLInputElement;
 const bjSettings = document.getElementById("bj-menu");
 const blackjacktable: HTMLElement = document.getElementById("blackjackgame-table-container");
 const betButtonElement = document.getElementById("bet-button") as HTMLButtonElement;
@@ -395,14 +396,45 @@ async function startGame(startingStackAmount: number){
 
 export function blackjackSingleLogic(){
 if(continueButton){
+
+    const validation = () =>{
+        if(playerNickname.value){
+            playerNickname.classList.remove("error");
+        }else{
+            playerNickname.classList.add("error");
+        }
+    }
+
+    playerNickname.addEventListener("focusout", (validation));
+    playerNickname.addEventListener("input", (validation));
+
     continueButton.addEventListener("click", ()=>{
+        if(playerNickname.value){
         const startingStackElement = document.getElementById("bjSelect-stackValue") as HTMLSelectElement;
         const startingStackAmount: number = Number(startingStackElement.value);
         if(playersSelect.value==="1"){
             const stackSpan: HTMLSpanElement = document.getElementById("playerName-namebox-stack");
             stackSpan.innerText = formatAsCurrency(startingStackAmount);
             startGame(startingStackAmount);
+            const nameboxName = document.getElementById("playerName-namebox-name") as HTMLSpanElement;
+            nameboxName.innerText = playerNickname.value;
         }
-    })
+    }else{
+        playerNickname.classList.add("error");
+    }
+
+    const avatarInput = document.getElementById("bjInput-avatarFile") as HTMLInputElement;
+    const avatarFile = avatarInput.files[0];
+
+    if(avatarFile){
+        const reader = new FileReader();
+        reader.onload = function (e){
+            const nameboxAvatar = document.getElementById("playerName-avatar") as HTMLImageElement;
+            nameboxAvatar.src = e.target.result as string;
+        };
+        reader.readAsDataURL(avatarFile);
+    }
+
+})
 }
 }

@@ -56,12 +56,9 @@
     position: absolute;
     bottom:-80px;
     @include flexbox(end, end, row);
-    & .playerName-avatar{
-        height:64px;
-        background-image: url("/assets/avatar-default.png");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+    & #playerName-avatar{
+        max-width:64px;
+        max-height: 64px;
     }
     & .playerName-namebox{
         width:100%;

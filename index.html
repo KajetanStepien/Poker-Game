@@ -19,7 +19,7 @@
         <div id="playerName-container" class="playerName-container">
             <img id="playerName-avatar" src="./assets/avatar-default.png"></img>
             <span id="playerName-namebox" class="playerName-namebox gradient">
-                <span id="playerName-namebox-name" class="namebox-name">leo</span>
+                <span id="playerName-namebox-name" class="namebox-name"></span>
                 <span id="playerName-namebox-stack" class="namebox-stack"></span>
             </span>
             <div class="betting-panel-helper">
@@ -60,11 +60,21 @@
             <span id="settings-option-label">Players: </span>
             <select name="playersAmount" id="bjSelect-players" class="select-standard">
             </select>
-        </div>
+            </div>
         <div class="settings-option-container">
             <span id="settings-option-label">Stack:</span>
             <select name="stackValue" id="bjSelect-stackValue" class="select-standard">
                 </select>
+        </div>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Nickname: </span>
+            <input type="text" id="bjInput-nickname" class="select-standard">
+            </select>
+        </div>
+        <div class="settings-option-container">
+            <span id="settings-option-label">Avatar: </span>
+            <input type="file" id="bjInput-avatarFile" class="select-standard" accept="image/*">
+            </select>
         </div>
         <div id="menu-btn-container" class="menu-btn-container">
         <button id="bjExit-btn" class="menu-btn">BACK</button><button id="bjContinue-btn" class="menu-btn">CONTINUE</button>

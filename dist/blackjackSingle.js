@@ -12,6 +12,7 @@ import { Deck } from "./blackjackLogic.js";
 import { Hand } from "./blackjackLogic.js";
 const continueButton = document.getElementById("bjContinue-btn");
 const playersSelect = document.getElementById("bjSelect-players");
+const playerNickname = document.getElementById("bjInput-nickname");
 const bjSettings = document.getElementById("bj-menu");
 const blackjacktable = document.getElementById("blackjackgame-table-container");
 const betButtonElement = document.getElementById("bet-button");
@@ -375,13 +376,40 @@ function startGame(startingStackAmount) {
 }
 export function blackjackSingleLogic() {
     if (continueButton) {
+        const validation = () => {
+            if (playerNickname.value) {
+                playerNickname.classList.remove("error");
+            }
+            else {
+                playerNickname.classList.add("error");
+            }
+        };
+        playerNickname.addEventListener("focusout", (validation));
+        playerNickname.addEventListener("input", (validation));
         continueButton.addEventListener("click", () => {
-            const startingStackElement = document.getElementById("bjSelect-stackValue");
-            const startingStackAmount = Number(startingStackElement.value);
-            if (playersSelect.value === "1") {
-                const stackSpan = document.getElementById("playerName-namebox-stack");
-                stackSpan.innerText = formatAsCurrency(startingStackAmount);
-                startGame(startingStackAmount);
+            if (playerNickname.value) {
+                const startingStackElement = document.getElementById("bjSelect-stackValue");
+                const startingStackAmount = Number(startingStackElement.value);
+                if (playersSelect.value === "1") {
+                    const stackSpan = document.getElementById("playerName-namebox-stack");
+                    stackSpan.innerText = formatAsCurrency(startingStackAmount);
+                    startGame(startingStackAmount);
+                    const nameboxName = document.getElementById("playerName-namebox-name");
+                    nameboxName.innerText = playerNickname.value;
+                }
+            }
+            else {
+                playerNickname.classList.add("error");
+            }
+            const avatarInput = document.getElementById("bjInput-avatarFile");
+            const avatarFile = avatarInput.files[0];
+            if (avatarFile) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const nameboxAvatar = document.getElementById("playerName-avatar");
+                    nameboxAvatar.src = e.target.result;
+                };
+                reader.readAsDataURL(avatarFile);
             }
         });
     }

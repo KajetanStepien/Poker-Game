@@ -96,4 +96,8 @@
   display: none;
 }
 
+.error {
+  border: 1px solid red;
+}
+
 /*# sourceMappingURL=menus.css.map */

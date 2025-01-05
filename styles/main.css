@@ -99,6 +99,10 @@
   display: none;
 }
 
+.error {
+  border: 1px solid red;
+}
+
 .blackjackSingle {
   backdrop-filter: blur(5px);
 }
@@ -168,12 +172,9 @@
   align-items: end;
   justify-content: end;
 }
-.playerName-container .playerName-avatar {
-  height: 64px;
-  background-image: url("/assets/avatar-default.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+.playerName-container #playerName-avatar {
+  max-width: 64px;
+  max-height: 64px;
 }
 .playerName-container .playerName-namebox {
   width: 100%;
