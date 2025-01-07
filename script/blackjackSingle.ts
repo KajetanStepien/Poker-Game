@@ -429,8 +429,24 @@ if(continueButton){
     if(avatarFile){
         const reader = new FileReader();
         reader.onload = function (e){
-            const nameboxAvatar = document.getElementById("playerName-avatar") as HTMLImageElement;
-            nameboxAvatar.src = e.target.result as string;
+            const img = new Image();
+            img.onload = function(){
+                const canvas = document.getElementById("avatarCanvas") as HTMLCanvasElement;
+                const ctx = canvas.getContext("2d");
+
+                const size = Math.min(img.width, img.height);
+                const offsetX = (img.width - size) / 2;
+                const offsetY = (img.height - size) / 2;
+
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                ctx.drawImage(img, offsetX, offsetY, size, size, 0, 0, 64, 64);
+
+                const dataUrl = canvas.toDataURL();
+                const avatar = document.getElementById("playerName-avatar") as HTMLImageElement;
+                avatar.src = dataUrl;
+                avatar.style.padding="1px";
+            }
+            img.src = e.target.result as string;
         };
         reader.readAsDataURL(avatarFile);
     }
