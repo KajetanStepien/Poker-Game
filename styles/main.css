@@ -430,7 +430,7 @@ body {
     transform: rotate(90deg) scale(0.5) translate(0, 65%);
     transform-origin: center;
     position: absolute;
-    top: 100%;
+    top: 0;
     left: 0;
     margin: 0;
     padding: 0;
