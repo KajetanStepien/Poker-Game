@@ -427,13 +427,13 @@ body {
 }
 @media (max-width: 1020px) {
   .bjgame-mobile {
-    transform: rotate(90deg) scale(0.55) translate(-50%, -50%);
+    transform: rotate(90deg) scale(0.55) translate(-50%, 75%);
     transform-origin: center center;
     position: fixed;
     width: auto;
     height: auto;
     top: 50%;
-    left: -50%;
+    left: 0;
   }
 }
 
